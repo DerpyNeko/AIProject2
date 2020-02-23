@@ -1,0 +1,299 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{241b884d-6bad-41d2-8d65-b392450ae6fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global">
+      <UniqueIdentifier>{98e987a4-25e8-4359-98ab-ae0067152767}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Error">
+      <UniqueIdentifier>{a9f30541-8cb7-4a20-bfae-a8022d81766f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DebugRenderer">
+      <UniqueIdentifier>{10629366-6540-43d4-bae0-3f11c52ed4c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LightManager">
+      <UniqueIdentifier>{239310ec-3481-40b5-873d-669b401f0e11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MeshManager">
+      <UniqueIdentifier>{6a14b2e6-788b-43aa-9c0b-4cb892fa2e7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{ddacd96b-b4bd-484d-8fc5-e464cbd57ddb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader Stuff">
+      <UniqueIdentifier>{d5e6af57-9126-4eec-ba7a-b2ac493093e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader Stuff\Shaders">
+      <UniqueIdentifier>{c2370e7f-a6f3-4c7e-bfa6-ef03c8b14bfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities">
+      <UniqueIdentifier>{4aa629a1-17de-4c05-ada0-50af1bc754d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS">
+      <UniqueIdentifier>{96e5c1d7-e726-48ca-89cb-38bf8028cffc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS\Behaviour">
+      <UniqueIdentifier>{8600d8c5-18db-4b9c-846b-c3c57ad56050}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS\Component">
+      <UniqueIdentifier>{97b52745-a9ab-495d-93ca-04df490adff0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\TextureManager">
+      <UniqueIdentifier>{bdcadb7c-35d0-43da-af64-b6f136795845}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS\System">
+      <UniqueIdentifier>{f2cfb5e5-0130-4fd4-98c2-e58a4f9d4bfa}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="cCamera.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="COpenGLError.cpp">
+      <Filter>Error</Filter>
+    </ClCompile>
+    <ClCompile Include="CErrorLog.cpp">
+      <Filter>Error</Filter>
+    </ClCompile>
+    <ClCompile Include="cDebugRenderer.cpp">
+      <Filter>DebugRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="cDebugRenderer_BuiltInShapes.cpp">
+      <Filter>DebugRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="cLightHelper.cpp">
+      <Filter>LightManager</Filter>
+    </ClCompile>
+    <ClCompile Include="cLightManager.cpp">
+      <Filter>LightManager</Filter>
+    </ClCompile>
+    <ClCompile Include="cVAOMeshManager.cpp">
+      <Filter>MeshManager</Filter>
+    </ClCompile>
+    <ClCompile Include="sModelDrawInfo.cpp">
+      <Filter>MeshManager</Filter>
+    </ClCompile>
+    <ClCompile Include="cAABB.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="cShader.cpp">
+      <Filter>Shader Stuff</Filter>
+    </ClCompile>
+    <ClCompile Include="cShaderManager.cpp">
+      <Filter>Shader Stuff</Filter>
+    </ClCompile>
+    <ClCompile Include="cGLColourHelper.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="C24BitBMPpixel.cpp">
+      <Filter>Source Files\TextureManager</Filter>
+    </ClCompile>
+    <ClCompile Include="cBasicTextureManager.cpp">
+      <Filter>Source Files\TextureManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CTextureFromBMP.cpp">
+      <Filter>Source Files\TextureManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateLights.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="glad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadModels.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UserIO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ecs\BehaviourManager.cpp">
+      <Filter>ECS\Behaviour</Filter>
+    </ClCompile>
+    <ClCompile Include="ecs\cProperties.cpp">
+      <Filter>ECS\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ecs\cTransform.cpp">
+      <Filter>ECS\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ecs\Engine.cpp">
+      <Filter>ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="ecs\Entity.cpp">
+      <Filter>ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="ecs\EntityManager.cpp">
+      <Filter>ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="ecs\bApproach.cpp">
+      <Filter>ECS\Behaviour</Filter>
+    </ClCompile>
+    <ClCompile Include="ecs\bPursue.cpp">
+      <Filter>ECS\Behaviour</Filter>
+    </ClCompile>
+    <ClCompile Include="ecs\bSeek.cpp">
+      <Filter>ECS\Behaviour</Filter>
+    </ClCompile>
+    <ClCompile Include="ecs\bWander.cpp">
+      <Filter>ECS\Behaviour</Filter>
+    </ClCompile>
+    <ClCompile Include="ecs\bFlee.cpp">
+      <Filter>ECS\Behaviour</Filter>
+    </ClCompile>
+    <ClCompile Include="ecs\sCollisionSystem.cpp">
+      <Filter>ECS\System</Filter>
+    </ClCompile>
+    <ClCompile Include="ecs\sMotionSystem.cpp">
+      <Filter>ECS\System</Filter>
+    </ClCompile>
+    <ClCompile Include="ecs\sObstacleSystem.cpp">
+      <Filter>ECS\System</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="cCamera.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="globalStuff.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="globalOpenGLStuff.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="COpenGLError.h">
+      <Filter>Error</Filter>
+    </ClInclude>
+    <ClInclude Include="CErrorLog.h">
+      <Filter>Error</Filter>
+    </ClInclude>
+    <ClInclude Include="sPlyTriangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sPlyVertex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cDebugRenderer.h">
+      <Filter>DebugRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="iDebugRenderer.h">
+      <Filter>DebugRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="cLightManager.h">
+      <Filter>LightManager</Filter>
+    </ClInclude>
+    <ClInclude Include="cLightHelper.h">
+      <Filter>LightManager</Filter>
+    </ClInclude>
+    <ClInclude Include="cVAOMeshManager.h">
+      <Filter>MeshManager</Filter>
+    </ClInclude>
+    <ClInclude Include="sModelDrawInfo.h">
+      <Filter>MeshManager</Filter>
+    </ClInclude>
+    <ClInclude Include="cAABB.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="cShaderManager.h">
+      <Filter>Shader Stuff</Filter>
+    </ClInclude>
+    <ClInclude Include="cGLColourHelper.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="C24BitBMPpixel.h">
+      <Filter>Source Files\TextureManager</Filter>
+    </ClInclude>
+    <ClInclude Include="cBasicTextureManager.h">
+      <Filter>Source Files\TextureManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CTextureFromBMP.h">
+      <Filter>Source Files\TextureManager</Filter>
+    </ClInclude>
+    <ClInclude Include="linmath.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\Behaviour.h">
+      <Filter>ECS\Behaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\BehaviourManager.h">
+      <Filter>ECS\Behaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\cObstacle.h">
+      <Filter>ECS\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\Component.h">
+      <Filter>ECS\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\cProperties.h">
+      <Filter>ECS\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\cTransform.h">
+      <Filter>ECS\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\cVelocity.h">
+      <Filter>ECS\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\Engine.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\Entity.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\EntityManager.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\bApproach.h">
+      <Filter>ECS\Behaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\bPursue.h">
+      <Filter>ECS\Behaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\bSeek.h">
+      <Filter>ECS\Behaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\bWander.h">
+      <Filter>ECS\Behaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\bFlee.h">
+      <Filter>ECS\Behaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\sCollisionSystem.h">
+      <Filter>ECS\System</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\sMotionSystem.h">
+      <Filter>ECS\System</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\sObstacleSystem.h">
+      <Filter>ECS\System</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\System.h">
+      <Filter>ECS\System</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\shaders\fragment01.glsl">
+      <Filter>Shader Stuff\Shaders</Filter>
+    </None>
+    <None Include="assets\shaders\vertex01.glsl">
+      <Filter>Shader Stuff\Shaders</Filter>
+    </None>
+  </ItemGroup>
+</Project>
