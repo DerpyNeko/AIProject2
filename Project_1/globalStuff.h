@@ -51,10 +51,12 @@ extern BehaviourManager gBehaviourManager;
 extern double startTime;
 
 extern Entity* g_player;
-
 extern std::vector<Entity*> g_bullets;
 
-extern std::vector<Entity*> g_PathNodes;
+//extern std::vector<Entity*> g_PathNodes;
+
+extern bool isFlock;
+extern bool isFormation;
 
 extern bool isStopped;
 extern bool isReversed;

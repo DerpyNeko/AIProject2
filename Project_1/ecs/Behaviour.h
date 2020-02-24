@@ -2,6 +2,7 @@
 #define _HG_Behaviour_
 
 #include "Component.h"
+#include <string>
 
 class Behaviour : public Component
 {
@@ -12,8 +13,11 @@ public:
 
 	float const MAXVELOCITY = 2.0f;
 
+	virtual std::string GetName() = 0;
+
 protected:
 	Behaviour(void) { }
+	std::string mBehaviourName;
 };
 
 #endif

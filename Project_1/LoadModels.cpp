@@ -9,8 +9,6 @@
 Entity* g_player;
 
 std::vector<Entity*> g_bullets;
-std::vector<Entity*> g_PathNodes;
-float const PI = 3.1415926;
 
 // Loading models was moved into this function
 void LoadModelTypes(cVAOMeshManager* pTheVAOMeshManager, GLuint shaderProgramID)
@@ -89,8 +87,8 @@ void LoadModelsIntoScene()
 		g_player->AddComponent<Velocity>();
 	}
 
-	// ENTITY #2-13 - Entities
-	for (int i = 0; i < 11; i++)
+	// ENTITY #2-14 - Entities
+	for (int i = 0; i < 12; i++)
 	{
 		Entity* entity2 = EntityManager::CreateEntity();
 		entity2->name = "Entity" + std::to_string(i);
@@ -138,7 +136,6 @@ void LoadModelsIntoScene()
 		transform2->sphereRadius = transform2->scale.x;
 
 		entity2->AddComponent<Velocity>();
-		g_PathNodes.push_back(entity2);
 	}
 
 	// ENTITY #10 - Debug Sphere

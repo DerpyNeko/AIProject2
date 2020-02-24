@@ -57,3 +57,8 @@ void FleeBehaviour::Update(float dt)
 	if (agentVelocity->velocity.y > MAXVELOCITY)
 		agentVelocity->velocity.y = MAXVELOCITY;
 }
+
+std::string FleeBehaviour::GetName()
+{
+	return "FleeBehaviour";
+}

@@ -174,6 +174,7 @@
     <ClCompile Include="CTextureFromBMP.cpp" />
     <ClCompile Include="cVAOMeshManager.cpp" />
     <ClCompile Include="DrawObject.cpp" />
+    <ClCompile Include="ecs\bFormation.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="LoadModels.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -181,6 +182,7 @@
     <ClCompile Include="UserIO.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ecs\bFormation.h" />
     <ClInclude Include="ecs\bPathFollow.h" />
     <ClInclude Include="ecs\bFlee.h" />
     <ClInclude Include="ecs\bApproach.h" />

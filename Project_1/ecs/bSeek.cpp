@@ -63,3 +63,7 @@ void SeekBehaviour::Update(float dt)
 	}
 }
 
+std::string SeekBehaviour::GetName()
+{
+	return "SeekBehaviour";
+}

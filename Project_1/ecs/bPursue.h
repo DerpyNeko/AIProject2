@@ -13,7 +13,8 @@ public:
 	virtual ~PursueBehaviour(void);
 
 	virtual void Update(float dt);
-
+	
+	virtual std::string GetName();
 private:
 	Entity* mAgent;
 	Entity* mTarget;

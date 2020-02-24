@@ -18,14 +18,15 @@ struct Path
 	std::vector<PathNode> pathNodes;
 };
 
-class PathFollowingBehaviour : public Behaviour
+class PathFollowBehaviour : public Behaviour
 {
 public:
-	PathFollowingBehaviour(Entity* entity, Path* path);
-	virtual ~PathFollowingBehaviour(void);
+	PathFollowBehaviour(Entity* entity, Path* path);
+	virtual ~PathFollowBehaviour(void);
 
 	virtual void Update(float dt);
 
+	virtual std::string GetName();
 private:
 	Entity* mEntity;			// The agent following the path
 	Path* mPath;				// The path to follow

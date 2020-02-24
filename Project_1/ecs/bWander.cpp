@@ -80,3 +80,8 @@ void WanderBehaviour::Update(float dt)
 		agentVelocity->velocity = normalized * MAXVELOCITY;
 	}
 }
+
+std::string WanderBehaviour::GetName()
+{
+	return "WanderBehaviour";
+}

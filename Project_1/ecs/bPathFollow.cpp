@@ -4,10 +4,10 @@
 
 #include "cTransform.h"
 #include "cVelocity.h"
+#include "cProperties.h"
 #include <iostream>
 
-#include "../globalStuff.h"
-
+#include "EntityManager.h"
 #include <math.h>
 
 bool isStopped = false;
@@ -15,29 +15,45 @@ bool isReversed = false;
 double const PI = 3.1415926;
 bool isBorked = false;
 
-PathFollowingBehaviour::PathFollowingBehaviour(Entity* entity, Path* path) 
+PathFollowBehaviour::PathFollowBehaviour(Entity* entity, Path* path) 
 	: mEntity(entity) , mPath(path) , mCurrentGoal(0), mPathRadius(15.0f)
 {
-	assert(mEntity, "PathFollowingBehaviour: The entity is null.");
-	assert(mPath, "PathFollowingBehaviour: The path is null.");
+	assert(mEntity, "PathFollowBehaviour: The entity is null.");
+	assert(mPath, "PathFollowBehaviour: The path is null.");
 }
 
-PathFollowingBehaviour::~PathFollowingBehaviour(void)
+PathFollowBehaviour::~PathFollowBehaviour(void)
 {
 }
 
-void PathFollowingBehaviour::Update(float dt)
+void PathFollowBehaviour::Update(float dt)
 {
 	if (!isStopped)
 	{
 		// Check if the entity is at the goal position
 		Transform* agentTransform = mEntity->GetComponent<Transform>();
-		assert(transform, "PathFollowingBehaviour: Entity does not contain a Transform component.");
+		assert(transform, "PathFollowBehaviour: Entity does not contain a Transform component.");
 		Velocity* agentVelocity = mEntity->GetComponent<Velocity>();
-		assert(transform, "PathFollowingBehaviour: Entity does not contain a Velocity component.");
+		assert(transform, "PathFollowBehaviour: Entity does not contain a Velocity component.");
 
 		PathNode pathNode = mPath->pathNodes[mCurrentGoal];
-		Properties* nodeProperties = g_PathNodes[mCurrentGoal]->GetComponent<Properties>();
+
+		Properties* nodeProperties = 0;
+
+		for (Entity* e : EntityManager::GetEntityList())
+		{
+			Properties* p = e->GetComponent<Properties>();
+			Transform* t = e->GetComponent<Transform>();
+
+			if (p->type == eType::OTHER)
+			{
+				if (t->position == pathNode.position)
+				{
+					nodeProperties = p;
+				}
+			}
+		}
+
 		nodeProperties->setDiffuseColour(glm::vec3(0.0f, 1.0f, 0.0f));
 
 		float dist = glm::distance(agentTransform->position, pathNode.position);
@@ -91,10 +107,30 @@ void PathFollowingBehaviour::Update(float dt)
 
 		orientation = glm::normalize(orientation);
 
-		if (!isBorked)
+		//if (!isnan(orientation.z))
+		if(!isBorked)
 		{
 			std::cout << orientation.z << std::endl;
 			//agentTransform->orientation = orientation;
+
+			//float dotProduct = glm::dot(agentTransform->position, pathNode.position);
+
+			//float dotProduct = glm::dot(glm::vec3(4,3,0), glm::vec3(3,5,0));
+			//std::cout << dotProduct << std::endl;
+			//float magA = glm::length(glm::vec3(4, 3, 0));
+			//float magB = glm::length(glm::vec3(3, 5, 0));
+
+			//float magA = glm::length(agentTransform->position);
+			//float magB = glm::length(pathNode.position);
+
+			//std::cout << magA << " " << magB << std::endl;
+			//float h = dotProduct / (magA * magB);
+			//float num = acos(h) * 180/PI;
+			//std::cout << num << std::endl;
+
+			//float product = acos(dotProduct / (magA * magB)) * 180 / PI;
+
+			//float angle = product - orientation.z;
 
 			float angle = 0.0f;
 			//agentTransform->orientation.z = orientation.z;
@@ -107,10 +143,8 @@ void PathFollowingBehaviour::Update(float dt)
 			isBorked = true;
 		}
 
-
 		//agentTransform->adjMeshOrientationEulerAngles(glm::vec3(0, 0, orientation.z), true);
 		//agentTransform->orientation = orientation;
-
 
 		agentVelocity->velocity.x += steer.x * dt;
 		agentVelocity->velocity.y += steer.y * dt;
@@ -128,4 +162,9 @@ void PathFollowingBehaviour::Update(float dt)
 	{
 		mEntity->GetComponent<Velocity>()->velocity = glm::vec3(0.0f);
 	}
+}
+
+std::string PathFollowBehaviour::GetName()
+{
+	return "PathFollowBehaviour";
 }

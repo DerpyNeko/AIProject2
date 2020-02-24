@@ -12,6 +12,8 @@ public:
 
 	virtual void Update(float dt);
 
+	virtual std::string GetName();
+
 private:
 	Entity* mAgent;
 	Entity* mTarget;

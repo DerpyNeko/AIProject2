@@ -2,11 +2,15 @@
 #include "globalStuff.h"
 #include "ecs/bPathFollow.h"
 #include "ecs/EntityManager.h"
+#include "ecs/bFormation.h"
 
 bool isWPressed = false;
 bool isSPressed = false;
 
 int bulletCount = -1;
+
+bool isFlock = false;
+bool isFormation = false;
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -43,40 +47,41 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	//	isFlock = false;
 	//}
 
-	//if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
-	//{
-	//	formation = circleFormation;
-	//	isFormation = true;
-	//	isFlock = false;
-	//}
+	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
+	{
+		gBehaviourManager.SetBehaviour(g_player, new FormationBehaviour(circleFormation));
 
-	//if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
-	//{
-	//	formation = vFormation;
-	//	isFormation = true;
-	//	isFlock = false;
-	//}
+		isFormation = true;
+		isFlock = false;
+	}
 
-	//if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
-	//{
-	//	formation = squareFormation;
-	//	isFormation = true;
-	//	isFlock = false;
-	//}
+	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
+	{
+		gBehaviourManager.SetBehaviour(g_player, new FormationBehaviour(vFormation));
+		isFormation = true;
+		isFlock = false;
+	}
 
-	//if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS)
-	//{
-	//	formation = lineFormation;
-	//	isFormation = true;
-	//	isFlock = false;
-	//}
+	if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
+	{
+		gBehaviourManager.SetBehaviour(g_player, new FormationBehaviour(squareFormation));
+		isFormation = true;
+		isFlock = false;
+	}
 
-	//if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS)
-	//{
-	//	formation = rowsFormation;
-	//	isFormation = true;
-	//	isFlock = false;
-	//}
+	if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS)
+	{
+		gBehaviourManager.SetBehaviour(g_player, new FormationBehaviour(lineFormation));
+		isFormation = true;
+		isFlock = false;
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS)
+	{
+		gBehaviourManager.SetBehaviour(g_player, new FormationBehaviour(rowsFormation));
+		isFormation = true;
+		isFlock = false;
+	}
 
 	//if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS)
 	//{
@@ -102,12 +107,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 				path->pathNodes.push_back(PathNode(t->position));
 			}
 		}
-		//path->pathNodes.push_back(PathNode(glm::vec3(235.0f, 540.0f, 0.0f)));
-		//path->pathNodes.push_back(PathNode(glm::vec3(20.0f, -15.0f, 0.0f)));
-		//path->pathNodes.push_back(PathNode(glm::vec3(-220.0f, 235.0f, 0.0f)));
-		//path->pathNodes.push_back(PathNode(glm::vec3(-735.0f, 410.0f, 0.0f)));
-		//path->pathNodes.push_back(PathNode(glm::vec3(-1045.0f, -90.0f, 0.0f)));
-		gBehaviourManager.SetBehaviour(g_player, new PathFollowingBehaviour(g_player, path));
+
+		gBehaviourManager.SetBehaviour(g_player, new PathFollowBehaviour(g_player, path));
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_9) == GLFW_PRESS)

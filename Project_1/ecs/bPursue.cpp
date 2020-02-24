@@ -135,3 +135,8 @@ void PursueBehaviour::ClosestPtPointSegment(glm::vec3 c, glm::vec3 a, glm::vec3 
 	// Compute projected position from the clamped t
 	d = a + t * ab;
 }
+
+std::string PursueBehaviour::GetName()
+{
+	return "PursueBehaviour";
+}

@@ -171,6 +171,9 @@
     <ClCompile Include="ecs\bPathFollow.cpp">
       <Filter>ECS\Behaviour</Filter>
     </ClCompile>
+    <ClCompile Include="ecs\bFormation.cpp">
+      <Filter>ECS\Behaviour</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cCamera.h">
@@ -291,6 +294,9 @@
       <Filter>ECS\System</Filter>
     </ClInclude>
     <ClInclude Include="ecs\bPathFollow.h">
+      <Filter>ECS\Behaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\bFormation.h">
       <Filter>ECS\Behaviour</Filter>
     </ClInclude>
   </ItemGroup>
