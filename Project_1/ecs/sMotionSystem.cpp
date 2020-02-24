@@ -22,11 +22,8 @@ void MotionSystem::Process(const std::vector<Entity*> &entities, float dt)
 
 		if (transform == 0 || velocity == 0) continue;
 
-		velocity->vx += velocity->ax * dt;
-		velocity->vy += velocity->ay * dt;
-
-		transform->position.x += velocity->vx * dt;
-		transform->position.y += velocity->vy * dt;
+		velocity->velocity += velocity->acceleration* dt;
+		transform->position += velocity->velocity;
 
 #ifdef LOG_SYSTEMS
 		printf("    acc (%.2f, %.2f)\n    vel (%.2f, %.2f)\n    pos (%.2f, %.2f)\n"

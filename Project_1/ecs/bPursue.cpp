@@ -30,8 +30,7 @@ void PursueBehaviour::Update(float dt)
 	int T = (int)magnitude / (int)MAXVELOCITY;
 
 	glm::vec3 futurePosition;
-	futurePosition.x = targetTransform->position.x + targetVelocity->vx * T;
-	futurePosition.y = targetTransform->position.y + targetVelocity->vy * T;
+	futurePosition = targetTransform->position + targetVelocity->velocity * glm::vec3(T, T, 0);
 
 	glm::vec3 desiredVelocity = glm::normalize(futurePosition - agentTransform->position);
 
@@ -45,29 +44,23 @@ void PursueBehaviour::Update(float dt)
 	if (bIsThreatDetected)
 	{
 		agentProperties->setDiffuseColour(glm::vec3(1.0f, 1.0f, 0.0f));
-		agentVelocity->vx = (agentVelocity->vx + avoidanceVector.x);
-		agentVelocity->vy = (agentVelocity->vy + avoidanceVector.y);
+		agentVelocity->velocity = agentVelocity->velocity + avoidanceVector;
 	}
 	else
 	{
 		agentProperties->setDiffuseColour(glm::vec3(0.0f, 1.0f, 0.0f));
-		steer.x = desiredVelocity.x - agentVelocity->vx;
-		steer.y = desiredVelocity.y - agentVelocity->vy;
-		
-		agentVelocity->vx += steer.x * dt;
-		agentVelocity->vy += steer.y * dt;
+
+		steer = desiredVelocity - agentVelocity->velocity;
+		agentVelocity->velocity += steer * dt;
 	}
 
 	if (magnitude > MAXVELOCITY)
 	{
-		glm::vec3 normalized = { agentVelocity->vx, agentVelocity->vy, 0 };
-
+		glm::vec3 normalized = agentVelocity->velocity;
 		double mag = glm::length(normalized);
-
 		normalized /= mag;
 
-		agentVelocity->vx = normalized.x * MAXVELOCITY;
-		agentVelocity->vy = normalized.y * MAXVELOCITY;
+		agentVelocity->velocity = normalized * MAXVELOCITY;
 	}
 }
 
@@ -83,7 +76,7 @@ bool PursueBehaviour::BulletDetection(glm::vec3& closestBulletAvoidanceVector)
 
 	if (agentTransform == 0 || agentVelocity == 0) return false;
 
-	glm::vec3 velocity = glm::vec3(agentVelocity->vx, agentVelocity->vy, 0.0f);
+	glm::vec3 velocity = agentVelocity->velocity;
 	if (glm::length(velocity) == 0.0f) return false;
 
 	for (Entity* e : g_bullets)

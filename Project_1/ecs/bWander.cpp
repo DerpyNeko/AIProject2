@@ -28,8 +28,6 @@ void WanderBehaviour::Update(float dt)
 
 	double currentTime = glfwGetTime();
 
-	//std::cout << "Desired Position before: " << mXPosition << " " << mYPosition << std::endl;
-
 	if (mIsWandering == false && mIsIdling == false)
 	{
 		agentProperties->setDiffuseColour(glm::vec3(0.0f, 1.0f, 1.0f));
@@ -39,8 +37,6 @@ void WanderBehaviour::Update(float dt)
 		mIsWandering = true;
 	}
 
-	//std::cout << "Desired Position after: " << mXPosition << " " << mYPosition << std::endl;
-
 	glm::vec3 desiredPosition = glm::vec3(mXPosition, mYPosition, 0);
 
 	glm::vec3 desiredVelocity = glm::normalize(desiredPosition - agentTransform->position);
@@ -48,9 +44,8 @@ void WanderBehaviour::Update(float dt)
 	float magnitude = glm::length(desiredPosition - agentTransform->position);
 
 	if (magnitude < 0.5)
-	{			
-		agentVelocity->vx = 0.0f;
-		agentVelocity->vy = 0.0f;
+	{
+		agentVelocity->velocity = glm::vec3(0, 0, 0);
 
 		// Sets starting idling time if wander position is reached
 		if (mIsIdling == false)
@@ -73,21 +68,15 @@ void WanderBehaviour::Update(float dt)
 	desiredVelocity *= MAXVELOCITY;
 
 	glm::vec3 steer;
-	steer.x = desiredVelocity.x - agentVelocity->vx;
-	steer.y = desiredVelocity.y - agentVelocity->vy;
-
-	agentVelocity->vx += steer.x * dt;
-	agentVelocity->vy += steer.y * dt;
+	steer = desiredVelocity - agentVelocity->velocity;
+	agentVelocity->velocity += steer * dt;
 
 	if (magnitude > MAXVELOCITY)
 	{
-		glm::vec3 normalized = { agentVelocity->vx, agentVelocity->vy, 0 };
-
+		glm::vec3 normalized = agentVelocity->velocity;
 		double mag = glm::length(normalized);
-
 		normalized /= mag;
 
-		agentVelocity->vx = normalized.x * MAXVELOCITY;
-		agentVelocity->vy = normalized.y * MAXVELOCITY;
+		agentVelocity->velocity = normalized * MAXVELOCITY;
 	}
 }

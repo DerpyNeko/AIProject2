@@ -41,8 +41,7 @@ void FleeBehaviour::Update(float dt)
 	desiredVelocity *= MAXVELOCITY;
 
 	glm::vec3 steer;
-	steer.x = desiredVelocity.x - agentVelocity->vx;
-	steer.y = desiredVelocity.y - agentVelocity->vy;
+	steer = desiredVelocity - agentVelocity->velocity;
 
 	glm::quat orientation = glm::quat(glm::lookAt(agentTransform->position, steer, UP));
 
@@ -50,16 +49,11 @@ void FleeBehaviour::Update(float dt)
 
 	agentTransform->orientation = orientation;
 
-	agentVelocity->vx += steer.x * dt;
-	agentVelocity->vy += steer.y * dt;
+	agentVelocity->velocity += steer * dt;
 
-	//agentVelocity->vx = 0;
-	//agentVelocity->vy = 0;
+	if (agentVelocity->velocity.x > MAXVELOCITY)
+		agentVelocity->velocity.x = MAXVELOCITY;
 
-	if (agentVelocity->vx > MAXVELOCITY)
-		agentVelocity->vx = MAXVELOCITY;
-
-	if (agentVelocity->vy > MAXVELOCITY)
-		agentVelocity->vy = MAXVELOCITY;
+	if (agentVelocity->velocity.y > MAXVELOCITY)
+		agentVelocity->velocity.y = MAXVELOCITY;
 }
-

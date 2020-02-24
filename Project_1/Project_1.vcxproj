@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ecs\bPathFollow.cpp" />
     <ClCompile Include="ecs\bFlee.cpp" />
     <ClCompile Include="ecs\bApproach.cpp" />
     <ClCompile Include="ecs\BehaviourManager.cpp" />
@@ -180,6 +181,7 @@
     <ClCompile Include="UserIO.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ecs\bPathFollow.h" />
     <ClInclude Include="ecs\bFlee.h" />
     <ClInclude Include="ecs\bApproach.h" />
     <ClInclude Include="ecs\Behaviour.h" />

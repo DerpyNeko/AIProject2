@@ -12,14 +12,12 @@ struct CollisionPair
 
 	Entity* entityA;
 	Entity* entityB;
-
 };
 
 float const PI = 3.1415926;
 
 void CollisionSystem::Process(const std::vector<Entity*>& entities, float dt)
 {
-
 	Entity* entityA;
 	Entity* entityB;
 
@@ -33,6 +31,8 @@ void CollisionSystem::Process(const std::vector<Entity*>& entities, float dt)
 	Velocity* velocityB;
 
 	std::vector<CollisionPair*> collisions;
+
+	Transform* playerTransform = g_player->GetComponent<Transform>();
 
 	unsigned int numEntities = entities.size();
 	for (unsigned int idxA = 1; idxA < numEntities; idxA++)
@@ -51,17 +51,17 @@ void CollisionSystem::Process(const std::vector<Entity*>& entities, float dt)
 
 			if (TestSphereSphereCollision(transformA->position, transformA->sphereRadius, transformB->position, transformB->sphereRadius))
 			{
-				if (!(propertyA->type == Type::PLAYER && propertyB->type == Type::BULLET))
-					if (!(propertyA->type == Type::ENEMY && propertyB->type == Type::ENEMY))
-						if (!(propertyA->type == Type::BULLET && propertyB->type == Type::BULLET))
-							if (!(propertyA->type == Type::EBULLET && propertyB->type == Type::EBULLET))
-								if (!(propertyA->type == Type::BULLET && propertyB->type == Type::EBULLET))
-									if (!(propertyA->type == Type::EBULLET && propertyB->type == Type::BULLET))
-										if (!(propertyA->type == Type::ENEMY && propertyB->type == Type::EBULLET))
-											if (!(propertyA->type == Type::EBULLET && propertyB->type == Type::ENEMY))
+				if (!(propertyA->type == eType::PLAYER && propertyB->type == eType::BULLET))
+					if (!(propertyA->type == eType::ENEMY && propertyB->type == eType::ENEMY))
+						if (!(propertyA->type == eType::BULLET && propertyB->type == eType::BULLET))
+							if (!(propertyA->type == eType::EBULLET && propertyB->type == eType::EBULLET))
+								if (!(propertyA->type == eType::BULLET && propertyB->type == eType::EBULLET))
+									if (!(propertyA->type == eType::EBULLET && propertyB->type == eType::BULLET))
+										if (!(propertyA->type == eType::ENEMY && propertyB->type == eType::EBULLET))
+											if (!(propertyA->type == eType::EBULLET && propertyB->type == eType::ENEMY))
 												std::cout << entityA->name << " has collided with " << entityB->name << std::endl;
 
-				if (propertyA->type == Type::PLAYER && propertyB->type == Type::ENEMY)
+				if (propertyA->type == eType::PLAYER && propertyB->type == eType::ENEMY)
 				{
 					playerTransform->position = glm::vec3(0.0f, 0.0f, 0.0f);
 
@@ -72,16 +72,15 @@ void CollisionSystem::Process(const std::vector<Entity*>& entities, float dt)
 					transformB->position = glm::vec3(x, y, 0.0f);
 				}
 
-				if (propertyA->type == Type::PLAYER && propertyB->type == Type::EBULLET)
+				if (propertyA->type == eType::PLAYER && propertyB->type == eType::EBULLET)
 				{
 					playerTransform->position = glm::vec3(0.0f, 0.0f, 0.0f);
 
 					transformB->position = glm::vec3(1000, 0, 0.0f);
-					velocityB->vx = 0.0f;
-					velocityB->vy = 0.0f;
+					velocityB->velocity = glm::vec3(0, 0, 0);
 				}
 
-				if (propertyA->type == Type::ENEMY && propertyB->type == Type::BULLET)
+				if (propertyA->type == eType::ENEMY && propertyB->type == eType::BULLET)
 				{
 					float circleRadius = 550.0f;
 					float angle = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (PI * 2)));
@@ -90,8 +89,7 @@ void CollisionSystem::Process(const std::vector<Entity*>& entities, float dt)
 
 					transformA->position = glm::vec3(x, y, 0.0f);
 					transformB->position = glm::vec3(-2500.0f, 300.0f, 0.0f);
-					velocityB->vx = 0.0f;
-					velocityB->vy = 0.0f;
+					velocityB->velocity = glm::vec3(0, 0, 0);
 				}
 			}
 		}

@@ -33,7 +33,7 @@ void ObstacleSystem::Process(const std::vector<Entity*> &entities, float dt)
 
 		if (agentTransform == 0 || agentVelocity == 0) continue;
 
-		glm::vec3 velocity = glm::vec3(agentVelocity->vx, agentVelocity->vy, 0.0f);
+		glm::vec3 velocity = agentVelocity->velocity;
 		if (glm::length(velocity) == 0.0f) continue;
 
 		closestObstacleDistance = FLT_MAX;
@@ -82,8 +82,7 @@ void ObstacleSystem::Process(const std::vector<Entity*> &entities, float dt)
 		// If there is a closest threat then perform this calculation
 		if (closestObstacle != 0)
 		{
-			agentVelocity->vx = (velocity.x + closestObstacleAvoidanceVector.x) * 0.5f;
-			agentVelocity->vy = (velocity.y + closestObstacleAvoidanceVector.y) * 0.5f;
+			agentVelocity->velocity = (velocity + closestObstacleAvoidanceVector) * 0.5f;
 		}
 	}
 

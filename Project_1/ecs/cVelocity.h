@@ -5,14 +5,14 @@
 
 struct Velocity : public Component
 {
-	Velocity(void) : vx(0), vy(0), ax(0), ay(0) { }
-	Velocity(float vx, float vy) : vx(vx), vy(vy), ax(0), ay(0) { }
-	Velocity(float vx, float vy, float ax, float ay) : vx(vx), vy(vy), ax(ax), ay(ay) { }
+	Velocity(void) : velocity(0, 0, 0), acceleration(0, 0, 0) { }
+	Velocity(float vx, float vy) : velocity(vx, vy, 0), acceleration(0, 0, 0) { }
+	Velocity(float vx, float vy, float ax, float ay) :velocity(vx, vy, 0), acceleration(ax, ay, 0) { }
 
 	virtual ~Velocity(void) { }
 
-	float vx, vy;		// bulletVelocity in m/s
-	float ax, ay;		// acceleration in m/s^2
+	glm::vec3 velocity;			// bulletVelocity in m/s
+	glm::vec3 acceleration;		// acceleration in m/s^2
 };
 
 #endif

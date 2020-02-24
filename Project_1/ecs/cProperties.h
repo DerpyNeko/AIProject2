@@ -14,12 +14,13 @@ struct sTextureInfo
 	float strength;			// Set to 0.0f by default
 };
 
-enum class Type
+enum class eType
 {
 	PLAYER,
 	ENEMY,
 	BULLET,
-	EBULLET
+	EBULLET,
+	OTHER
 };
 
 class Properties : public Component
@@ -32,7 +33,7 @@ public:
 	glm::vec4 materialDiffuse;
 	glm::vec4 materialSpecular;
 
-	Type type;
+	eType type;
 
 	bool bIsVisible;
 	bool bIsWireFrame;
@@ -42,7 +43,6 @@ public:
 	std::vector<sTextureInfo> vecTextures;
 
 	void setDiffuseColour(glm::vec3 newDiffuse);
-
 };
 
 #endif

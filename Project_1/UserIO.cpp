@@ -1,5 +1,7 @@
 #include "globalOpenGLStuff.h"
 #include "globalStuff.h"
+#include "ecs/bPathFollow.h"
+#include "ecs/EntityManager.h"
 
 bool isWPressed = false;
 bool isSPressed = false;
@@ -8,29 +10,117 @@ int bulletCount = -1;
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
+	Transform* playerTransform = g_player->GetComponent<Transform>();
+	Velocity* playerVelocity = g_player->GetComponent<Velocity>();
+
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 	{
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
 	}
 
-	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-	{
-		if (bulletCount >= 9)
-			bulletCount = 0;
+	//if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+	//{
+	//	if (bulletCount >= 9)
+	//		bulletCount = 0;
 
-		bulletCount++;
+	//	bulletCount++;
 
-		Transform* bulletTransform = g_bullets.at(bulletCount)->GetComponent<Transform>();
-		Velocity* bulletVelocity = g_bullets.at(bulletCount)->GetComponent<Velocity>();
+	//	Transform* bulletTransform = g_bullets.at(bulletCount)->GetComponent<Transform>();
+	//	Velocity* bulletVelocity = g_bullets.at(bulletCount)->GetComponent<Velocity>();
 
-		bulletTransform->position = playerTransform->position;
-		bulletVelocity->vx = playerVelocity->vx * 1.4f;
-		bulletVelocity->vy = playerVelocity->vy * 1.4f;
-	}
+	//	bulletTransform->position = playerTransform->position;
+	//	bulletVelocity->velocity = playerVelocity->velocity * 1.4f;
+	//}
 
 	if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
 	{
-		std::cout << playerTransform->position.x << " " << playerTransform->position.y << " " << playerTransform->position.z << std::endl;
+		std::cout << playerTransform->position.x << " " << playerTransform->position.y << std::endl;
+	}
+
+	//if (glfwGetKey(window, GLFW_KEY_GRAVE_ACCENT) == GLFW_PRESS)
+	//{
+	//	isFormation = false;
+	//	isFlock = false;
+	//}
+
+	//if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
+	//{
+	//	formation = circleFormation;
+	//	isFormation = true;
+	//	isFlock = false;
+	//}
+
+	//if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
+	//{
+	//	formation = vFormation;
+	//	isFormation = true;
+	//	isFlock = false;
+	//}
+
+	//if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
+	//{
+	//	formation = squareFormation;
+	//	isFormation = true;
+	//	isFlock = false;
+	//}
+
+	//if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS)
+	//{
+	//	formation = lineFormation;
+	//	isFormation = true;
+	//	isFlock = false;
+	//}
+
+	//if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS)
+	//{
+	//	formation = rowsFormation;
+	//	isFormation = true;
+	//	isFlock = false;
+	//}
+
+	//if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS)
+	//{
+	//	isFlock = !isFlock;
+	//	isFormation = false;
+	//}
+
+	//if (glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS)
+	//{
+	//	isFlock = false;
+	//	isFormation = true;
+	//}
+
+	if (glfwGetKey(window, GLFW_KEY_8) == GLFW_PRESS)
+	{
+		Path* path = new Path();
+		for (Entity* e : EntityManager::GetEntityList())
+		{
+			Properties* p = e->GetComponent<Properties>();
+			Transform* t = e->GetComponent<Transform>();
+			if (p->type == eType::OTHER)
+			{
+				path->pathNodes.push_back(PathNode(t->position));
+			}
+		}
+		//path->pathNodes.push_back(PathNode(glm::vec3(235.0f, 540.0f, 0.0f)));
+		//path->pathNodes.push_back(PathNode(glm::vec3(20.0f, -15.0f, 0.0f)));
+		//path->pathNodes.push_back(PathNode(glm::vec3(-220.0f, 235.0f, 0.0f)));
+		//path->pathNodes.push_back(PathNode(glm::vec3(-735.0f, 410.0f, 0.0f)));
+		//path->pathNodes.push_back(PathNode(glm::vec3(-1045.0f, -90.0f, 0.0f)));
+		gBehaviourManager.SetBehaviour(g_player, new PathFollowingBehaviour(g_player, path));
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_9) == GLFW_PRESS)
+	{
+		isReversed = !isReversed;
+		isStopped = false;
+
+		std::cout << "Key 9: isReversed: " << isReversed << std::endl;
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_0) == GLFW_PRESS)
+	{
+		isStopped = !isStopped;
 	}
 
 	return;
@@ -38,43 +128,43 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 void ProcessAsyncKeys(GLFWwindow* window)
 {
+	Transform* playerTransform = g_player->GetComponent<Transform>();
+	Velocity* playerVelocity = g_player->GetComponent<Velocity>();
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)	// "fowards"
 	{
-		playerVelocity->vy = (glm::vec3(0, 3.0f, 0) * glm::toMat3(playerTransform->orientation)).y;
-		playerVelocity->vx = (glm::vec3(0, -3.0f, 0) * glm::toMat3(playerTransform->orientation)).x;
+		playerVelocity->velocity.y = (glm::vec3(0, 2.0f, 0) * glm::toMat3(playerTransform->orientation)).y;
+		playerVelocity->velocity.x = (glm::vec3(0, 2.0f, 0) * glm::toMat3(playerTransform->orientation)).x;
 		isWPressed = true;
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_RELEASE && isWPressed == true)
 	{
-		playerVelocity->vx = 0.0f;
-		playerVelocity->vy = 0.0f;
+		playerVelocity->velocity = glm::vec3(0, 0, 0);
 		isWPressed = false;
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)	// "backwards"
 	{
-		playerVelocity->vy = (glm::vec3(0, -3.0f, 0) * glm::toMat3(playerTransform->orientation)).y;
-		playerVelocity->vx = (glm::vec3(0, 3.0f, 0) * glm::toMat3(playerTransform->orientation)).x;
+		playerVelocity->velocity.y = (glm::vec3(0, -2.0f, 0) * glm::toMat3(playerTransform->orientation)).y;
+		playerVelocity->velocity.x = (glm::vec3(0, -2.0f, 0) * glm::toMat3(playerTransform->orientation)).x;
 		isSPressed = true;
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_RELEASE && isSPressed == true)
 	{
-		playerVelocity->vx = 0.0f;
-		playerVelocity->vy = 0.0f;
+		playerVelocity->velocity = glm::vec3(0, 0, 0);
 		isSPressed = false;
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)	// rotate "left"
 	{
-		playerTransform->adjMeshOrientationEulerAngles(glm::vec3(0, 0, -3), true);
+		playerTransform->adjMeshOrientationEulerAngles(glm::vec3(0, 0, 3), true);
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)	// rotate "right"
 	{
-		playerTransform->adjMeshOrientationEulerAngles(glm::vec3(0, 0, 3), true);
+		playerTransform->adjMeshOrientationEulerAngles(glm::vec3(0, 0, -3), true);
 	}
 
 	return;

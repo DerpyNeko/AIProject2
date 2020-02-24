@@ -52,8 +52,7 @@ void ApproachBehaviour::Update(float dt)
 
 	if (distance.x < MAINTAINRADUIS && distance.y < MAINTAINRADUIS)
 	{
-		agentVelocity->vx = 0;
-		agentVelocity->vy = 0;
+		agentVelocity->velocity = glm::vec3(0, 0, 0);
 
 		if (!isShoot)
 		{
@@ -67,20 +66,16 @@ void ApproachBehaviour::Update(float dt)
 			desiredVelocity *= MAXVELOCITY;
 
 			glm::vec3 steer;
-			steer.x = desiredVelocity.x - bulletVelocity->vx;
-			steer.y = desiredVelocity.y - bulletVelocity->vy;
-
-			bulletVelocity->vx += steer.x * dt;
-			bulletVelocity->vy += steer.y * dt;
+			steer = desiredVelocity - bulletVelocity->velocity;
+			bulletVelocity->velocity += steer * dt;
 
 			if (magnitude > MAXVELOCITY)
 			{
-				glm::vec3 normalized = { bulletVelocity->vx, bulletVelocity->vy, 0 };
+				glm::vec3 normalized = bulletVelocity->velocity;
 				double mag = glm::length(normalized);
 				normalized /= mag;
 
-				bulletVelocity->vx = normalized.x * MAXVELOCITY;
-				bulletVelocity->vy = normalized.y * MAXVELOCITY;
+				bulletVelocity->velocity = normalized * MAXVELOCITY;
 			}
 		}
 		else
@@ -88,8 +83,7 @@ void ApproachBehaviour::Update(float dt)
 			if ((currentTime - start) / (float)CLOCKS_PER_SEC > 4.0f)
 			{
 				bulletTransform->position = agentTransform->position;
-				bulletVelocity->vx = 0;
-				bulletVelocity->vy = 0;
+				bulletVelocity->velocity = glm::vec3(0, 0, 0);
 				isShoot = false;
 			}
 			else
@@ -100,23 +94,19 @@ void ApproachBehaviour::Update(float dt)
 	}
 	else
 	{
-		steer.x = desiredVelocity.x - agentVelocity->vx;
-		steer.y = desiredVelocity.y - agentVelocity->vy;
-
-		agentVelocity->vx += steer.x * dt;
-		agentVelocity->vy += steer.y * dt;
+		steer = desiredVelocity - agentVelocity->velocity;
+		agentVelocity->velocity += steer * dt;
 
 		if (!isShoot)
 		{
 			bulletTransform->position = agentTransform->position;
-			bulletVelocity->vx = agentVelocity->vx;
-			bulletVelocity->vy = agentVelocity->vy;
+			bulletVelocity->velocity = agentVelocity->velocity;
 		}
 	}
 
-	if (agentVelocity->vx > MAXVELOCITY)
-		agentVelocity->vx = MAXVELOCITY;
+	if (agentVelocity->velocity.x > MAXVELOCITY)
+		agentVelocity->velocity.x = MAXVELOCITY;
 
-	if (agentVelocity->vy > MAXVELOCITY)
-		agentVelocity->vy = MAXVELOCITY;
+	if (agentVelocity->velocity.y > MAXVELOCITY)
+		agentVelocity->velocity.y = MAXVELOCITY;
 }

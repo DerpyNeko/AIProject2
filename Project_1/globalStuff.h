@@ -49,9 +49,14 @@ void DrawObject(Entity* entity, glm::mat4x4& matModel, GLuint shaderProgramID);
 
 extern BehaviourManager gBehaviourManager;
 extern double startTime;
-extern Transform* playerTransform;
-extern Velocity* playerVelocity;
+
+extern Entity* g_player;
 
 extern std::vector<Entity*> g_bullets;
+
+extern std::vector<Entity*> g_PathNodes;
+
+extern bool isStopped;
+extern bool isReversed;
 
 #endif	// _globalStuff_HG_
