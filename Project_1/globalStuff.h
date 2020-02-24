@@ -58,7 +58,7 @@ extern std::vector<Entity*> g_bullets;
 extern bool isFlock;
 extern bool isFormation;
 
-extern bool isStopped;
+//extern bool isStopped;
 extern bool isReversed;
 
 #endif	// _globalStuff_HG_

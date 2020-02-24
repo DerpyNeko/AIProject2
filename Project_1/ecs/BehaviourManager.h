@@ -11,7 +11,7 @@ public:
 	~BehaviourManager(void);
 
 	void SetBehaviour(Entity* agent, Behaviour* behaviour);
-	void RemoveAgent(Entity* agent, Behaviour* behaviour);
+	void RemoveAgent(Entity* agent, std::string behaviour);
 
 	void Update(float dt);
 

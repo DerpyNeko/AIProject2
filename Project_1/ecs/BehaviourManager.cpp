@@ -35,14 +35,20 @@ void BehaviourManager::SetBehaviour(Entity* agent, Behaviour* behaviour)
 	mBehaviourVector.push_back(std::make_pair(agent, behaviour));
 }
 
-void BehaviourManager::RemoveAgent(Entity* agent, Behaviour* behaviour) 
+void BehaviourManager::RemoveAgent(Entity* agent, std::string behaviour) 
 {
 	for (behaviour_iterator it = mBehaviourVector.begin(); it != mBehaviourVector.end(); it++)
 	{
-		if (it->first == agent && it->second == behaviour)
+		if (it->first == agent && it->second->GetName() == behaviour)
 		{
 			delete it->second;
 			mBehaviourVector.erase(it);
+			std::cout << "Deleting something" << std::endl;
+			return;
+		}
+		else
+		{
+			std::cout << "Path Follow Behaviour not found, press 8 to instantiate a new one";
 		}
 	}
 
@@ -71,4 +77,6 @@ void BehaviourManager::Update(float dt)
 
 		std::cout << itAgent->first->name << " " << itAgent->second->GetName() << std::endl;
 	}
+
+	std::cout << "\n" << std::endl;
 }

@@ -99,7 +99,6 @@ void LoadModelsIntoScene()
 		properties2->meshName = "SpherePoint_n_uv.ply";
 		properties2->type = eType::ENEMY;
 
-		int randomNum = rand() % 891 + (-445);
 		float x = ((float(rand()) / float(RAND_MAX)) * (445 - (-445))) + (-445);
 		float y = ((float(rand()) / float(RAND_MAX)) * (445 - (-445))) + (-445);
 

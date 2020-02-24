@@ -114,14 +114,24 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	if (glfwGetKey(window, GLFW_KEY_9) == GLFW_PRESS)
 	{
 		isReversed = !isReversed;
-		isStopped = false;
+//		isStopped = false;
 
 		std::cout << "Key 9: isReversed: " << isReversed << std::endl;
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_0) == GLFW_PRESS)
 	{
-		isStopped = !isStopped;
+	//	isStopped = !isStopped;
+		playerVelocity->velocity = glm::vec3(0, 0, 0);
+		gBehaviourManager.RemoveAgent(g_player, "PathFollowBehaviour");
+		for (Entity* e : EntityManager::GetEntityList())
+		{
+			Properties* p = e->GetComponent<Properties>();
+			if (p->type == eType::OTHER)
+			{
+				p->setDiffuseColour(glm::vec3(0.0f, 0.0f, 1.0f));
+			}
+		}
 	}
 
 	return;
