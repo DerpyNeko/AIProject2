@@ -1,6 +1,5 @@
 #include "bFlee.h"
 #include "bSeek.h"
-#include <assert.h>
 
 #include "../globalStuff.h"
 
@@ -14,9 +13,6 @@ FleeBehaviour::~FleeBehaviour(void)
 
 void FleeBehaviour::Update(float dt)
 {
-	assert(mAgent);
-	assert(mTarget);
-
 	// Gets nessesary components from entites
 	Transform* agentTransform = mAgent->GetComponent<Transform>();
 	Transform* targetTransform = mTarget->GetComponent<Transform>();
@@ -58,7 +54,7 @@ void FleeBehaviour::Update(float dt)
 		agentVelocity->velocity.y = MAXVELOCITY;
 }
 
-std::string FleeBehaviour::GetName()
+std::string FleeBehaviour::GetName(void)
 {
 	return "FleeBehaviour";
 }

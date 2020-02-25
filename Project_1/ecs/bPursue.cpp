@@ -1,8 +1,6 @@
 #include "bPursue.h"
 #include "../globalStuff.h"
 
-#include <assert.h>
-
 PursueBehaviour::PursueBehaviour(Entity* agent, Entity* target) : mAgent(agent), mTarget(target)
 {
 }
@@ -13,9 +11,6 @@ PursueBehaviour::~PursueBehaviour(void)
 
 void PursueBehaviour::Update(float dt)
 {
-	assert(mAgent);
-	assert(mTarget);
-
 	// Gets nessesary components from entites
 	Transform* agentTransform = mAgent->GetComponent<Transform>();
 	Transform* targetTransform = mTarget->GetComponent<Transform>();
@@ -136,7 +131,7 @@ void PursueBehaviour::ClosestPtPointSegment(glm::vec3 c, glm::vec3 a, glm::vec3 
 	d = a + t * ab;
 }
 
-std::string PursueBehaviour::GetName()
+std::string PursueBehaviour::GetName(void)
 {
 	return "PursueBehaviour";
 }

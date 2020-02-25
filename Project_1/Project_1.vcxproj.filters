@@ -174,6 +174,9 @@
     <ClCompile Include="ecs\bFormation.cpp">
       <Filter>ECS\Behaviour</Filter>
     </ClCompile>
+    <ClCompile Include="ecs\bFlock.cpp">
+      <Filter>ECS\Behaviour</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cCamera.h">
@@ -297,6 +300,12 @@
       <Filter>ECS\Behaviour</Filter>
     </ClInclude>
     <ClInclude Include="ecs\bFormation.h">
+      <Filter>ECS\Behaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\bFlock.h">
+      <Filter>ECS\Behaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\Behaviours.h">
       <Filter>ECS\Behaviour</Filter>
     </ClInclude>
   </ItemGroup>

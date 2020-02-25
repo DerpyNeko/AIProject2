@@ -25,6 +25,23 @@ void MotionSystem::Process(const std::vector<Entity*> &entities, float dt)
 		velocity->velocity += velocity->acceleration* dt;
 		transform->position += velocity->velocity;
 
+		if (transform->position.x >= 445)
+		{
+			velocity->velocity.x = -fabs(velocity->velocity.x);
+		}
+		if (transform->position.x <= -445)
+		{
+			velocity->velocity.x = fabs(velocity->velocity.x);
+		}
+		if (transform->position.y >= 445)
+		{
+			velocity->velocity.y = -fabs(velocity->velocity.y);
+		}
+		if (transform->position.y <= -445)
+		{
+			velocity->velocity.y = fabs(velocity->velocity.y);
+		}
+
 #ifdef LOG_SYSTEMS
 		printf("    acc (%.2f, %.2f)\n    vel (%.2f, %.2f)\n    pos (%.2f, %.2f)\n"
 			, velocity->ax, velocity->ay

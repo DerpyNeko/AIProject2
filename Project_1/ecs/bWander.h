@@ -8,11 +8,10 @@ class WanderBehaviour : public Behaviour
 {
 public:
 	WanderBehaviour(Entity* agent);
+
 	virtual ~WanderBehaviour(void);
-
 	virtual void Update(float dt);
-
-	virtual std::string GetName();
+	virtual std::string GetName(void);
 
 private:
 	Entity* mAgent;

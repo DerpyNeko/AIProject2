@@ -1,12 +1,10 @@
 #include "globalOpenGLStuff.h"
 #include "globalStuff.h"
-#include "ecs/EntityManager.h"
-#include "ecs/bSeek.h"
-#include "ecs/bPursue.h"
-#include "ecs/bApproach.h"
-#include "ecs/bWander.h"
+
+#include "ecs/Behaviours.h"
 
 Entity* g_player;
+Entity* g_ring;
 
 std::vector<Entity*> g_bullets;
 
@@ -24,6 +22,10 @@ void LoadModelTypes(cVAOMeshManager* pTheVAOMeshManager, GLuint shaderProgramID)
 	sModelDrawInfo sphereInvertedNormalsInfo;
 	sphereInvertedNormalsInfo.meshFileName = "Sphere_n_uv_INVERTED_NORMALS.ply";
 	pTheVAOMeshManager->LoadModelIntoVAO(sphereInvertedNormalsInfo, shaderProgramID);
+
+	sModelDrawInfo ringInfo;
+	ringInfo.meshFileName = "Ring.ply";
+	pTheVAOMeshManager->LoadModelIntoVAO(ringInfo, shaderProgramID);
 
 	// At this point, mesh in in GPU
 	std::cout << "Mesh was loaded OK" << std::endl;
@@ -83,11 +85,30 @@ void LoadModelsIntoScene()
 		playerTransform->orientation = glm::quat(0.0f, 0.0f, 1.0f, 0.0f);
 		playerTransform->sphereRadius = playerTransform->scale.x;
 
-		Velocity* playerVelocity = g_player->AddComponent<Velocity>();
 		g_player->AddComponent<Velocity>();
 	}
 
-	// ENTITY #2-14 - Entities
+	// ENTITY #2 - Player Radius
+	{
+		g_ring = EntityManager::CreateEntity();
+		g_ring->name = "Ring";
+
+		Properties* properties1 = g_ring->AddComponent<Properties>();
+		properties1->setDiffuseColour(glm::vec3(0.0f, 1.0f, 1.0f));
+		properties1->bDontLight = true;
+		properties1->meshName = "Ring.ply";
+		properties1->type = eType::PLAYER;
+
+		Transform* transform1 = g_ring->AddComponent<Transform>();
+		transform1->position = glm::vec3(0.0f, 0.0f, 0.0f);
+		transform1->setUniformScale(0.5f);
+		transform1->orientation = glm::quat(0.0f, 0.0f, 1.0f, 0.0f);
+		transform1->sphereRadius = transform1->scale.x;
+
+		g_ring->AddComponent<Velocity>();
+	}
+
+	// ENTITY #3-15 - Entities
 	for (int i = 0; i < 12; i++)
 	{
 		Entity* entity2 = EntityManager::CreateEntity();
@@ -108,10 +129,11 @@ void LoadModelsIntoScene()
 		transform2->orientation = glm::quat(0.0f, 0.0f, 0.0f, 0.0f);
 		transform2->sphereRadius = transform2->scale.x;
 
-		entity2->AddComponent<Velocity>();
+		Velocity* velocity = entity2->AddComponent<Velocity>();
+		velocity->velocity = glm::normalize(glm::vec3(sin(rand()), sin(rand()), 0.0f));
 	}
 
-	// ENTITY #14-19 - Path Nodes
+	// ENTITY #16-21 - Path Nodes
 	for (int i = 0; i < 5; i++)
 	{
 		Entity* entity2 = EntityManager::CreateEntity();
@@ -137,7 +159,7 @@ void LoadModelsIntoScene()
 		entity2->AddComponent<Velocity>();
 	}
 
-	// ENTITY #10 - Debug Sphere
+	// ENTITY #22 - Debug Sphere
 	{
 		Entity* entity = EntityManager::CreateEntity();
 		entity->name = "DebugSphere";

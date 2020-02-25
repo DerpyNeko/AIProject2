@@ -6,7 +6,7 @@
 class Obstacle : public Component
 {
 public:
-	Obstacle(void) { }
+	Obstacle(void) : radius(0.0f) { }
 	virtual ~Obstacle(void) { }
 
 	float radius;

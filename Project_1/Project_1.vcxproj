@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ecs\bFlock.cpp" />
     <ClCompile Include="ecs\bPathFollow.cpp" />
     <ClCompile Include="ecs\bFlee.cpp" />
     <ClCompile Include="ecs\bApproach.cpp" />
@@ -182,6 +183,8 @@
     <ClCompile Include="UserIO.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ecs\Behaviours.h" />
+    <ClInclude Include="ecs\bFlock.h" />
     <ClInclude Include="ecs\bFormation.h" />
     <ClInclude Include="ecs\bPathFollow.h" />
     <ClInclude Include="ecs\bFlee.h" />

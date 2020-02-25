@@ -1,16 +1,14 @@
 #include "globalOpenGLStuff.h"
 #include "globalStuff.h"
-#include "ecs/bPathFollow.h"
-#include "ecs/EntityManager.h"
-#include "ecs/bFormation.h"
+
+#include "ecs/Behaviours.h"
 
 bool isWPressed = false;
 bool isSPressed = false;
 
 int bulletCount = -1;
 
-bool isFlock = false;
-bool isFormation = false;
+std::vector<glm::vec3> lastFormationCalled;
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -49,51 +47,44 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
 	{
-		gBehaviourManager.SetBehaviour(g_player, new FormationBehaviour(circleFormation));
-
-		isFormation = true;
-		isFlock = false;
+		gBehaviourManager.SetBehaviour(g_player, new FormationBehaviour(g_player, circleFormation));
+		lastFormationCalled = circleFormation;
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
 	{
-		gBehaviourManager.SetBehaviour(g_player, new FormationBehaviour(vFormation));
-		isFormation = true;
-		isFlock = false;
+		gBehaviourManager.SetBehaviour(g_player, new FormationBehaviour(g_player, vFormation));
+		lastFormationCalled = vFormation;
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
 	{
-		gBehaviourManager.SetBehaviour(g_player, new FormationBehaviour(squareFormation));
-		isFormation = true;
-		isFlock = false;
+		gBehaviourManager.SetBehaviour(g_player, new FormationBehaviour(g_player, squareFormation));
+		lastFormationCalled = squareFormation;
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS)
 	{
-		gBehaviourManager.SetBehaviour(g_player, new FormationBehaviour(lineFormation));
-		isFormation = true;
-		isFlock = false;
+		gBehaviourManager.SetBehaviour(g_player, new FormationBehaviour(g_player, lineFormation));
+		lastFormationCalled = lineFormation;
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS)
 	{
-		gBehaviourManager.SetBehaviour(g_player, new FormationBehaviour(rowsFormation));
-		isFormation = true;
-		isFlock = false;
+		gBehaviourManager.SetBehaviour(g_player, new FormationBehaviour(g_player, rowsFormation));
+		lastFormationCalled = rowsFormation;
 	}
 
-	//if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS)
-	//{
-	//	isFlock = !isFlock;
-	//	isFormation = false;
-	//}
+	if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS)
+	{
+		gBehaviourManager.RemoveBehaviour(g_player, "FormationBehaviour");
+		gBehaviourManager.SetBehaviour(g_player, new FlockBehaviour(g_player, 0.4f, 0.4f, 0.2f));
+	}
 
-	//if (glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS)
-	//{
-	//	isFlock = false;
-	//	isFormation = true;
-	//}
+	if (glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS)
+	{
+		gBehaviourManager.SetBehaviour(g_player, new FormationBehaviour(g_player, lastFormationCalled));
+	}
 
 	if (glfwGetKey(window, GLFW_KEY_8) == GLFW_PRESS)
 	{
@@ -114,16 +105,15 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	if (glfwGetKey(window, GLFW_KEY_9) == GLFW_PRESS)
 	{
 		isReversed = !isReversed;
-//		isStopped = false;
 
 		std::cout << "Key 9: isReversed: " << isReversed << std::endl;
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_0) == GLFW_PRESS)
 	{
-	//	isStopped = !isStopped;
+		//	isStopped = !isStopped;
 		playerVelocity->velocity = glm::vec3(0, 0, 0);
-		gBehaviourManager.RemoveAgent(g_player, "PathFollowBehaviour");
+		gBehaviourManager.RemoveBehaviour(g_player, "PathFollowBehaviour");
 		for (Entity* e : EntityManager::GetEntityList())
 		{
 			Properties* p = e->GetComponent<Properties>();
@@ -141,17 +131,22 @@ void ProcessAsyncKeys(GLFWwindow* window)
 {
 	Transform* playerTransform = g_player->GetComponent<Transform>();
 	Velocity* playerVelocity = g_player->GetComponent<Velocity>();
+	Velocity* ringVelocity = g_ring->GetComponent<Velocity>();
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)	// "fowards"
 	{
 		playerVelocity->velocity.y = (glm::vec3(0, 2.0f, 0) * glm::toMat3(playerTransform->orientation)).y;
 		playerVelocity->velocity.x = (glm::vec3(0, 2.0f, 0) * glm::toMat3(playerTransform->orientation)).x;
+		ringVelocity->velocity.y = (glm::vec3(0, 2.0f, 0) * glm::toMat3(playerTransform->orientation)).y;
+		ringVelocity->velocity.x = (glm::vec3(0, 2.0f, 0) * glm::toMat3(playerTransform->orientation)).x;
+
 		isWPressed = true;
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_RELEASE && isWPressed == true)
 	{
 		playerVelocity->velocity = glm::vec3(0, 0, 0);
+		ringVelocity->velocity = glm::vec3(0, 0, 0);
 		isWPressed = false;
 	}
 
@@ -159,12 +154,15 @@ void ProcessAsyncKeys(GLFWwindow* window)
 	{
 		playerVelocity->velocity.y = (glm::vec3(0, -2.0f, 0) * glm::toMat3(playerTransform->orientation)).y;
 		playerVelocity->velocity.x = (glm::vec3(0, -2.0f, 0) * glm::toMat3(playerTransform->orientation)).x;
+		ringVelocity->velocity.y = (glm::vec3(0, -2.0f, 0) * glm::toMat3(playerTransform->orientation)).y;
+		ringVelocity->velocity.x = (glm::vec3(0, -2.0f, 0) * glm::toMat3(playerTransform->orientation)).x;
 		isSPressed = true;
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_RELEASE && isSPressed == true)
 	{
 		playerVelocity->velocity = glm::vec3(0, 0, 0);
+		ringVelocity->velocity = glm::vec3(0, 0, 0);
 		isSPressed = false;
 	}
 

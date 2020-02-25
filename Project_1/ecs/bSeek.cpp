@@ -2,10 +2,7 @@
 #include "bFlee.h"
 #include "../globalStuff.h"
 
-#include <assert.h>
-
-
-SeekBehaviour::SeekBehaviour(Entity* agent, Entity* target): mAgent(agent), mTarget(target)
+SeekBehaviour::SeekBehaviour(Entity* agent, Entity* target) : mAgent(agent), mTarget(target)
 {
 }
 
@@ -15,9 +12,6 @@ SeekBehaviour::~SeekBehaviour(void)
 
 void SeekBehaviour::Update(float dt)
 {
-	assert(mAgent);
-	assert(mTarget);
-
 	// Gets nessesary components from entites
 	Transform* agentTransform = mAgent->GetComponent<Transform>();
 	Transform* targetTransform = mTarget->GetComponent<Transform>();
@@ -42,7 +36,7 @@ void SeekBehaviour::Update(float dt)
 	float magnitude = glm::length(targetTransform->position - agentTransform->position);
 
 	desiredVelocity *= MAXVELOCITY;
-	
+
 	glm::vec3 steer;
 	steer = desiredVelocity - agentVelocity->velocity;
 
@@ -63,7 +57,7 @@ void SeekBehaviour::Update(float dt)
 	}
 }
 
-std::string SeekBehaviour::GetName()
+std::string SeekBehaviour::GetName(void)
 {
 	return "SeekBehaviour";
 }

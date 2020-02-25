@@ -1,10 +1,12 @@
 #include "sCollisionSystem.h"
 
 #include <math.h>
+
 #include "cTransform.h"
 #include "cVelocity.h"
 #include "cProperties.h"
-#include <iostream>
+
+#include "../globalStuff.h"
 
 struct CollisionPair
 {
@@ -14,7 +16,7 @@ struct CollisionPair
 	Entity* entityB;
 };
 
-float const PI = 3.1415926;
+float const PI = (float)(3.141592);
 
 void CollisionSystem::Process(const std::vector<Entity*>& entities, float dt)
 {
@@ -34,7 +36,7 @@ void CollisionSystem::Process(const std::vector<Entity*>& entities, float dt)
 
 	Transform* playerTransform = g_player->GetComponent<Transform>();
 
-	unsigned int numEntities = entities.size();
+	unsigned int numEntities = (unsigned int)(entities.size());
 	for (unsigned int idxA = 1; idxA < numEntities; idxA++)
 	{
 		entityA = entities[idxA];

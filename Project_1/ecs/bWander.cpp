@@ -1,8 +1,6 @@
 #include "bWander.h"
 #include "../globalStuff.h"
 
-#include <assert.h>
-
 WanderBehaviour::WanderBehaviour(Entity* agent) : mAgent(agent)
 {
 	mIsWandering = false;
@@ -18,22 +16,20 @@ WanderBehaviour::~WanderBehaviour(void)
 
 void WanderBehaviour::Update(float dt)
 {
-	assert(mAgent);
-
 	Transform* agentTransform = mAgent->GetComponent<Transform>();
 	Velocity* agentVelocity = mAgent->GetComponent<Velocity>();
 	Properties* agentProperties = mAgent->GetComponent<Properties>();
 
 	if (agentTransform == 0 || agentVelocity == 0) return;
 
-	double currentTime = glfwGetTime();
+	float currentTime = (float)(glfwGetTime());
 
 	if (mIsWandering == false && mIsIdling == false)
 	{
 		agentProperties->setDiffuseColour(glm::vec3(0.0f, 1.0f, 1.0f));
-		mXPosition = rand() % (450 - (-450) + 1) + (-450);
-		mYPosition = rand() % (450 - (-450) + 1) + (-450);
-		
+		mXPosition = ((float(rand()) / float(RAND_MAX)) * (445 - (-445))) + (-445);
+		mYPosition = ((float(rand()) / float(RAND_MAX)) * (445 - (-445))) + (-445);
+
 		mIsWandering = true;
 	}
 
@@ -50,10 +46,10 @@ void WanderBehaviour::Update(float dt)
 		// Sets starting idling time if wander position is reached
 		if (mIsIdling == false)
 		{
-			agentProperties->setDiffuseColour(glm::vec3(1, 0.5,0));
+			agentProperties->setDiffuseColour(glm::vec3(1, 0.5, 0));
 
 			mStartIdleTime = currentTime;
-			mIsIdling = true;	
+			mIsIdling = true;
 			mIsWandering = false;
 		}
 
@@ -64,7 +60,7 @@ void WanderBehaviour::Update(float dt)
 			mIsWandering = false;
 		}
 	}
-	
+
 	desiredVelocity *= MAXVELOCITY;
 
 	glm::vec3 steer;
@@ -81,7 +77,7 @@ void WanderBehaviour::Update(float dt)
 	}
 }
 
-std::string WanderBehaviour::GetName()
+std::string WanderBehaviour::GetName(void)
 {
 	return "WanderBehaviour";
 }

@@ -157,7 +157,7 @@ int Engine::Initialize(void)
 	LoadModelTypes(::g_pVAOMeshManager, program);
 	LoadModelsIntoScene();
 
-	srand(time(NULL));
+	srand((unsigned int)(time(NULL)));
 
 	return 0;
 }
@@ -169,7 +169,7 @@ int Engine::Initialize(void)
 */
 int Engine::Destroy(void)
 {
-	unsigned int numSystems = gSystems.size();
+	unsigned int numSystems = (unsigned int) (gSystems.size());
 	for (unsigned int i = 0; i < numSystems; i++)
 	{
 		delete gSystems[i];
@@ -196,7 +196,6 @@ int Engine::Destroy(void)
  */
 int Engine::AddSystem(System* system)
 {
-	assert(system);
 	gSystems.push_back(system);
 
 	return 0;

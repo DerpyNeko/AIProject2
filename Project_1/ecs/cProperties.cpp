@@ -10,6 +10,8 @@ Properties::Properties()
 
 	this->bDontLight = false;
 	this->bUseVertexColour = false;
+	this->type = eType::NONE;
+	this->bIsPartOfFlock = false;
 }
 
 void Properties::setDiffuseColour(glm::vec3 newDiffuse)

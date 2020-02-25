@@ -7,7 +7,7 @@
 int main(void)
 {
 	int result;
-	srand(time(0));
+	srand((unsigned int)(time(0)));
 
 	printf("Initializing engine...\n");
 	result = Engine::Initialize();

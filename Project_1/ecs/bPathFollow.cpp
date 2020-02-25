@@ -1,24 +1,11 @@
 #include "bPathFollow.h"
 
-#include <assert.h>
-
-#include "cTransform.h"
-#include "cVelocity.h"
-#include "cProperties.h"
-#include <iostream>
-
-#include "EntityManager.h"
-#include <math.h>
-
 bool isReversed = false;
-double const PI = 3.1415926;
 bool isBorked = false;
 
 PathFollowBehaviour::PathFollowBehaviour(Entity* entity, Path* path)
 	: mEntity(entity), mPath(path), mCurrentGoal(0), mPathRadius(15.0f)
 {
-	assert(mEntity, "PathFollowBehaviour: The entity is null.");
-	assert(mPath, "PathFollowBehaviour: The path is null.");
 }
 
 PathFollowBehaviour::~PathFollowBehaviour(void)
@@ -29,12 +16,8 @@ void PathFollowBehaviour::Update(float dt)
 {
 	// Check if the entity is at the goal position
 	Transform* agentTransform = mEntity->GetComponent<Transform>();
-	assert(transform, "PathFollowBehaviour: Entity does not contain a Transform component.");
 	Velocity* agentVelocity = mEntity->GetComponent<Velocity>();
-	assert(transform, "PathFollowBehaviour: Entity does not contain a Velocity component.");
-
 	PathNode pathNode = mPath->pathNodes[mCurrentGoal];
-
 	Properties* nodeProperties = 0;
 
 	for (Entity* e : EntityManager::GetEntityList())
@@ -156,7 +139,7 @@ void PathFollowBehaviour::Update(float dt)
 	}
 }
 
-std::string PathFollowBehaviour::GetName()
+std::string PathFollowBehaviour::GetName(void)
 {
 	return "PathFollowBehaviour";
 }

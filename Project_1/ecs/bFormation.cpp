@@ -1,8 +1,6 @@
 #include "bFormation.h"
 
 #include "EntityManager.h"
-#include "cTransform.h"
-#include "cVelocity.h"
 #include "cProperties.h"
 
 // Vectors of formation offsets based on the black player position
@@ -50,8 +48,8 @@ std::vector<glm::vec3> rowsFormation = {
 	glm::vec3(-25.0f, 70.0f, 0.0f),		glm::vec3(25.0f, 70.0f, 0.0f),
 	glm::vec3(75.0f, 70.0f, 0.0f),		glm::vec3(125.0f, 70.0f, 0.0f)
 };
-FormationBehaviour::FormationBehaviour(std::vector<glm::vec3> formation) 
-	: mCurrentFormation(formation)
+
+FormationBehaviour::FormationBehaviour(Entity* entity, std::vector<glm::vec3> formation) : mCurrentFormation(formation), mAnchor(entity)
 {
 }
 
@@ -71,8 +69,8 @@ void FormationBehaviour::Update(float dt)
 		{
 			Transform* agentTransform = e->GetComponent<Transform>();
 			Velocity* agentVelocity = e->GetComponent<Velocity>();
-			
-			Transform* playerTransform = g_player->GetComponent<Transform>();
+
+			Transform* playerTransform = mAnchor->GetComponent<Transform>();
 
 			glm::vec3 targetPosition = playerTransform->position + mCurrentFormation[index];
 
@@ -123,7 +121,7 @@ void FormationBehaviour::Update(float dt)
 	}
 }
 
-std::string FormationBehaviour::GetName()
+std::string FormationBehaviour::GetName(void)
 {
 	return "FormationBehaviour";
 }

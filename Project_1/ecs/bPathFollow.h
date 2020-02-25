@@ -2,10 +2,8 @@
 #define _HG_PathFollowBehaviour_
 
 #include "Behaviour.h"
-#include "Entity.h"
 
 #include <glm/glm.hpp>
-#include <vector>
 
 struct PathNode
 {
@@ -22,11 +20,11 @@ class PathFollowBehaviour : public Behaviour
 {
 public:
 	PathFollowBehaviour(Entity* entity, Path* path);
+
 	virtual ~PathFollowBehaviour(void);
-
 	virtual void Update(float dt);
+	virtual std::string GetName(void);
 
-	virtual std::string GetName();
 private:
 	Entity* mEntity;			// The agent following the path
 	Path* mPath;				// The path to follow

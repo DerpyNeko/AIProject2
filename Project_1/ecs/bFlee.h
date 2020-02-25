@@ -2,17 +2,15 @@
 #define _HG_FleeBehaviour_
 
 #include "Behaviour.h"
-#include "Entity.h"
 
 class FleeBehaviour : public Behaviour
 {
 public:
 	FleeBehaviour(Entity* agent, Entity* target);
+	
 	virtual ~FleeBehaviour(void);
-
 	virtual void Update(float dt);
-
-	virtual std::string GetName();
+	virtual std::string GetName(void);
 
 private:
 	Entity* mAgent;

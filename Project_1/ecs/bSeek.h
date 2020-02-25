@@ -8,11 +8,10 @@ class SeekBehaviour : public Behaviour
 {
 public:
 	SeekBehaviour(Entity* agent, Entity* target);
+
 	virtual ~SeekBehaviour(void);
-
 	virtual void Update(float dt);
-
-	virtual std::string GetName();
+	virtual std::string GetName(void);
 
 private:
 	Entity* mAgent;

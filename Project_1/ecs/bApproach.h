@@ -2,17 +2,15 @@
 #define _HG_ApproachBehaviour_
 
 #include "Behaviour.h"
-#include "Entity.h"
-#include "EntityManager.h"
-#include "cProperties.h"
 
 class ApproachBehaviour : public Behaviour
 {
 public:
 	ApproachBehaviour(Entity* agent, Entity* target, Entity* bullet);
-	virtual ~ApproachBehaviour(void);
 
+	virtual ~ApproachBehaviour(void);
 	virtual void Update(float dt);
+	virtual std::string GetName(void);
 
 private:
 	Entity* mAgent;

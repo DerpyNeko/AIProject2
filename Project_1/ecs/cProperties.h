@@ -2,10 +2,11 @@
 #define _HG_cProperties_
 
 #include "Component.h"
+
 #include <glm/glm.hpp>
-#include <iostream>
+
+#include <string>
 #include <vector>
-#include "../globalStuff.h"
 
 struct sTextureInfo
 {
@@ -20,7 +21,8 @@ enum class eType
 	ENEMY,
 	BULLET,
 	EBULLET,
-	OTHER
+	OTHER,
+	NONE
 };
 
 class Properties : public Component
@@ -34,6 +36,8 @@ public:
 	glm::vec4 materialSpecular;
 
 	eType type;
+
+	bool bIsPartOfFlock;
 
 	bool bIsVisible;
 	bool bIsWireFrame;

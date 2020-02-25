@@ -1,16 +1,16 @@
 #include "BehaviourManager.h"
 #include <iostream>
 
-BehaviourManager::BehaviourManager(void) 
+BehaviourManager::BehaviourManager(void)
 {
 }
 
-BehaviourManager::~BehaviourManager(void) 
+BehaviourManager::~BehaviourManager(void)
 {
 	// Perform cleanup
-	for (behaviour_iterator itAgent = mBehaviourVector.begin(); itAgent != mBehaviourVector.end(); itAgent++) 
+	for (behaviour_iterator itAgent = mBehaviourVector.begin(); itAgent != mBehaviourVector.end(); itAgent++)
 	{
-		if (itAgent->second != 0) 
+		if (itAgent->second != 0)
 		{
 			delete itAgent->second;
 		}
@@ -19,23 +19,25 @@ BehaviourManager::~BehaviourManager(void)
 	mBehaviourVector.clear();
 }
 
-void BehaviourManager::SetBehaviour(Entity* agent, Behaviour* behaviour) 
+void BehaviourManager::SetBehaviour(Entity* agent, Behaviour* behaviour)
 {
 	// Check if the agent is already in the behaviour map
-	//behaviour_iterator itAgent = mBehaviourMap.find(agent);
+	for (behaviour_iterator it = mBehaviourVector.begin(); it != mBehaviourVector.end(); it++)
+	{
+		// Replaces the old behaviour with a new updated one with the same name (switching formations)
+		if (it->first == agent && it->second->GetName() == behaviour->GetName())
+		{
+			delete it->second;
+			mBehaviourVector.erase(it);
+			std::cout << "Replacing with new behaviour" << std::endl;
+			break;
+		}
+	}
 
-	// If the agent is in the map, and there is already a behaviour then delete 
-	// the behaviour
-	//if (itAgent != mBehaviourMap.end() && itAgent->second != 0) 
-	//{
-		//delete itAgent->second;
-	//}
-
-	//mBehaviourMap[agent] = behaviour;
 	mBehaviourVector.push_back(std::make_pair(agent, behaviour));
 }
 
-void BehaviourManager::RemoveAgent(Entity* agent, std::string behaviour) 
+void BehaviourManager::RemoveBehaviour(Entity* agent, std::string behaviour)
 {
 	for (behaviour_iterator it = mBehaviourVector.begin(); it != mBehaviourVector.end(); it++)
 	{
@@ -43,7 +45,7 @@ void BehaviourManager::RemoveAgent(Entity* agent, std::string behaviour)
 		{
 			delete it->second;
 			mBehaviourVector.erase(it);
-			std::cout << "Deleting something" << std::endl;
+			std::cout << "Deleting behaviour" << std::endl;
 			return;
 		}
 		else
@@ -51,26 +53,15 @@ void BehaviourManager::RemoveAgent(Entity* agent, std::string behaviour)
 			std::cout << "Path Follow Behaviour not found, press 8 to instantiate a new one";
 		}
 	}
-
-	// if the agent is in the map, delete the behaviour, and remove the agent.
-	//if (std::find(mBehaviourVector.begin(), mBehaviourVector.end(), findPair) != mBehaviourVector.end()) 
-	//{
-	//	if (itAgent->second != 0) 
-	//	{
-	//		delete itAgent->second;
-	//	}
-	//	
-	//	mBehaviourVector.erase(itAgent);
-	//}
 }
 
-void BehaviourManager::Update(float dt) 
+void BehaviourManager::Update(float dt)
 {
 	std::cout << "Current behaviours: " << std::endl;
-	
-	for (behaviour_iterator itAgent = mBehaviourVector.begin(); itAgent != mBehaviourVector.end(); itAgent++) 
+
+	for (behaviour_iterator itAgent = mBehaviourVector.begin(); itAgent != mBehaviourVector.end(); itAgent++)
 	{
-		if (itAgent->second != 0) 
+		if (itAgent->second != 0)
 		{
 			itAgent->second->Update(dt);
 		}

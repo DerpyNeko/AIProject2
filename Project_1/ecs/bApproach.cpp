@@ -2,7 +2,6 @@
 #include "cTransform.h"
 #include "cVelocity.h"
 
-#include <assert.h>
 #include <ctime>
 
 float currentTime = 0.0f;
@@ -20,9 +19,6 @@ ApproachBehaviour::~ApproachBehaviour(void)
 
 void ApproachBehaviour::Update(float dt)
 {
-	assert(mAgent);
-	assert(mTarget);
-
 	// Gets nessesary components from entites
 	Transform* agentTransform = mAgent->GetComponent<Transform>();
 	Transform* targetTransform = mTarget->GetComponent<Transform>();
@@ -58,7 +54,7 @@ void ApproachBehaviour::Update(float dt)
 		{
 			bulletTransform->position = agentTransform->position;
 			isShoot = true;
-			start = std::clock();
+			start = (float)(std::clock());
 			currentTime = start;
 
 			glm::vec3 desiredVelocity = glm::normalize(targetTransform->position - agentTransform->position);
@@ -88,7 +84,7 @@ void ApproachBehaviour::Update(float dt)
 			}
 			else
 			{
-				currentTime = std::clock();
+				currentTime = (float)(std::clock());
 			}
 		}
 	}
@@ -109,4 +105,9 @@ void ApproachBehaviour::Update(float dt)
 
 	if (agentVelocity->velocity.y > MAXVELOCITY)
 		agentVelocity->velocity.y = MAXVELOCITY;
+}
+
+std::string ApproachBehaviour::GetName()
+{
+	return "ApproachBehaviour";
 }

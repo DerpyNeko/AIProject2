@@ -1,7 +1,6 @@
 #ifndef _HG_Entity_
 #define _HG_Entity_
 
-#include <assert.h>
 #include <vector>
 #include <string>
 
@@ -33,7 +32,6 @@ typedef std::vector<Entity*>::iterator entity_iterator;
 template <class T> T* Entity::AddComponent()
 {
 	T* newComponent = new T();
-	assert(newComponent);
 
 	if (dynamic_cast<Component*>(newComponent) == 0) return 0;		// Check if the provided class type is a Component.
 	this->components.push_back(newComponent);

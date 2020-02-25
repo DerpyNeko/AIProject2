@@ -71,7 +71,6 @@ void ObstacleSystem::Process(const std::vector<Entity*> &entities, float dt)
 				if (glm::length(closestPoint - obstacleTransform->position) == 0.0f) {
 					// This needs to be handled. The obstacle is directly ahead of the agent
 					// Which means there will be no avoidance direction to go.
-					assert(0 && "This needs to be handled. The obstacle is directly ahead of the agent. Which means there will be no avoidance direction to go");
 				}
 
 				glm::vec3 avoidanceVector = glm::normalize(closestPoint - obstacleTransform->position);

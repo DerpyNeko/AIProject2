@@ -3,10 +3,6 @@
 
 #include "globalOpenGLStuff.h"
 
-#include "ecs/Entity.h"
-#include "ecs/cProperties.h"
-#include "ecs/cTransform.h"
-#include "ecs/cVelocity.h"
 #include "ecs/BehaviourManager.h"
 
 #include <glm/glm.hpp>
@@ -51,14 +47,9 @@ extern BehaviourManager gBehaviourManager;
 extern double startTime;
 
 extern Entity* g_player;
+extern Entity* g_ring;
 extern std::vector<Entity*> g_bullets;
 
-//extern std::vector<Entity*> g_PathNodes;
-
-extern bool isFlock;
-extern bool isFormation;
-
-//extern bool isStopped;
 extern bool isReversed;
 
 #endif	// _globalStuff_HG_
