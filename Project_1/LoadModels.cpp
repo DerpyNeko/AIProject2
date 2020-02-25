@@ -85,7 +85,8 @@ void LoadModelsIntoScene()
 		playerTransform->orientation = glm::quat(0.0f, 0.0f, 1.0f, 0.0f);
 		playerTransform->sphereRadius = playerTransform->scale.x;
 
-		g_player->AddComponent<Velocity>();
+		Velocity* v = g_player->AddComponent<Velocity>();
+		v->velocity = glm::vec3(0.001, 0.001, 0.0);
 	}
 
 	// ENTITY #2 - Player Radius

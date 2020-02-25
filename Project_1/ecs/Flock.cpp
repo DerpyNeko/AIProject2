@@ -1,107 +1,39 @@
-#include "bFlock.h"
+#include "Flock.h"
+#include <assert.h>
+#include <iostream>
 #include "cProperties.h"
 
-FlockBehaviour::FlockMemberInfo::FlockMemberInfo(Entity* entity, Transform* transform, Velocity* velocity)
-	: entity(entity)
-	, transform(transform)
-	, velocity(velocity)
-{
-}
-
-FlockBehaviour::FlockMemberInfo::~FlockMemberInfo(void)
-{
-}
-
-FlockBehaviour::FlockBehaviour(Entity* entity)
+Flock::Flock(void)
 	: cohesionWeight(1.0f / 3.0f)
 	, separationWeight(1.0f / 3.0f)
 	, alignmentWeight(1.0f / 3.0f)
 {
-	cohesion = glm::vec3(0.0f);
-	separation = glm::vec3(0.0f);
-	alignment = glm::vec3(0.0f);
-
-	AddFlockMember(entity);
 }
 
-FlockBehaviour::FlockBehaviour(Entity* entity, float cohesionWeight, float separationWeight, float alignmentWeight)
+Flock::Flock(float cohesionWeight, float separationWeight, float alignmentWeight)
 	: cohesionWeight(cohesionWeight)
 	, separationWeight(separationWeight)
 	, alignmentWeight(alignmentWeight)
 {
-	cohesion = glm::vec3(0.0f);
-	separation = glm::vec3(0.0f);
-	alignment = glm::vec3(0.0f);
-
-	AddFlockMember(entity);
 }
 
-FlockBehaviour::~FlockBehaviour(void)
+Flock::~Flock(void)
 {
-	for (FlockMemberInfo* e : mFlockMembers)
-	{
-		Velocity* v = e->entity->GetComponent<Velocity>();
-		v->acceleration = glm::vec3(0, 0, 0);
-		v->velocity = glm::vec3(0.001, 0.001, 0.0);
-	}
+	// TODO: Cleanup
 }
 
-void FlockBehaviour::Update(float dt)
-{
-	int radius = 100;
-
-	Transform* playerTransform = mFlockMembers[0]->entity->GetComponent<Transform>();
-	Velocity* playerVelocity = mFlockMembers[0]->entity->GetComponent<Velocity>();
-
-	for (Entity* e : EntityManager::GetEntityList())
-	{
-		Properties* properties = e->GetComponent<Properties>();
-
-		if (properties->type == eType::ENEMY)
-		{
-			Transform* transform = e->GetComponent<Transform>();
-
-			if ((transform->position.x <= playerTransform->position.x + radius &&
-				transform->position.x >= playerTransform->position.x - radius) &&
-				(transform->position.y <= playerTransform->position.y + radius &&
-					transform->position.y >= playerTransform->position.y - radius))
-			{
-				AddFlockMember(e);
-				properties->bIsPartOfFlock = true;
-			}
-
-			if (transform->position.x >= playerTransform->position.x + radius ||
-				transform->position.x <= playerTransform->position.x - radius ||
-				transform->position.y >= playerTransform->position.y + radius ||
-				transform->position.y <= playerTransform->position.y - radius)
-			{
-				if (properties->bIsPartOfFlock == true)
-				{
-					RemoveFlockMember(e);
-					properties->bIsPartOfFlock = false;
-				}
-			}
-		}
-	}
-
-	CalculateSteering();
-}
-
-std::string FlockBehaviour::GetName()
-{
-	return "FlockBehaviour";
-}
-
-void FlockBehaviour::AddFlockMember(Entity* entity)
+void Flock::AddFlockMember(Entity* entity)
 {
 	Properties* properties = entity->GetComponent<Properties>();
 	if (properties->bIsPartOfFlock)
 		return;
 
-	//std::cout << "Adding flock member" << std::endl;
+	std::cout << "Adding flock member" << std::endl;
 
 	Transform* transform = entity->GetComponent<Transform>();
 	Velocity* velocity = entity->GetComponent<Velocity>();
+	assert(transform, "Error adding entity to flock. Entity does not have a Transform component attached.");
+	assert(velocity, "Error adding entity to flock. Entity does not have a Velocity component attached.");
 
 	FlockMemberInfo* flockMemberInfo = new FlockMemberInfo(entity, transform, velocity);
 	mFlockMembers.push_back(flockMemberInfo);
@@ -112,13 +44,13 @@ void FlockBehaviour::AddFlockMember(Entity* entity)
 	}
 }
 
-void FlockBehaviour::RemoveFlockMember(Entity* entity)
+void Flock::RemoveFlockMember(Entity* entity)
 {
 	for (int i = 0; i < mFlockMembers.size(); i++)
 	{
 		if (mFlockMembers[i]->entity == entity)
 		{
-			//std::cout << "Removing flock member" << std::endl;
+			std::cout << "Removing flock member" << std::endl;
 
 			mFlockMembers.erase(mFlockMembers.begin() + i);
 		}
@@ -129,14 +61,14 @@ void FlockBehaviour::RemoveFlockMember(Entity* entity)
 
 	Velocity* velocity = entity->GetComponent<Velocity>();
 	velocity->velocity = glm::normalize(glm::vec3(sin(rand()), sin(rand()), 0.0f));
+
+	//velocity->acceleration = glm::vec3(0, 0, 0);
 }
 
-void FlockBehaviour::CalculateVectors(void)
+void Flock::CalculateVectors(void)
 {
-	glm::vec3 forward = glm::vec3(0, 0, 0);
+	glm::vec3 forward;
 
-	// Calculate the cohesion for the flock. This is the average
-	// position of all of the members of the flock.
 	cohesion = glm::vec3(0.0f);
 	separation = glm::vec3(0.0f);
 	alignment = glm::vec3(0.0f);
@@ -161,7 +93,7 @@ void FlockBehaviour::CalculateVectors(void)
 	}
 }
 
-void FlockBehaviour::CalculateSteering(void)
+void Flock::CalculateSteering(void)
 {
 	CalculateVectors();
 
@@ -174,13 +106,12 @@ void FlockBehaviour::CalculateSteering(void)
 		{
 			GetSteeringFor(*itMember, steering);
 
-
 			(*itMember)->velocity->acceleration = steering;
 		}
 	}
 }
 
-void FlockBehaviour::GetSteeringFor(FlockMemberInfo* member, glm::vec3& flockSteering)
+void Flock::GetSteeringFor(FlockMemberInfo* member, glm::vec3& flockSteering)
 {
 	glm::vec3 forward;
 	if (member->velocity->velocity.length != 0)
@@ -192,7 +123,7 @@ void FlockBehaviour::GetSteeringFor(FlockMemberInfo* member, glm::vec3& flockSte
 		forward = member->velocity->velocity;
 	}
 
-	float sizeMinusOne = (float)(mFlockMembers.size() - 1);
+	float sizeMinusOne = mFlockMembers.size() - 1;
 
 	if (mFlockMembers.size() < 2)
 	{
@@ -247,4 +178,15 @@ void FlockBehaviour::GetSteeringFor(FlockMemberInfo* member, glm::vec3& flockSte
 	}
 
 	flockSteering = glm::normalize(flockSteering);
+}
+
+Flock::FlockMemberInfo::FlockMemberInfo(Entity* entity, Transform* transform, Velocity* velocity)
+	: entity(entity)
+	, transform(transform)
+	, velocity(velocity)
+{
+
+}
+Flock::FlockMemberInfo::~FlockMemberInfo(void)
+{
 }

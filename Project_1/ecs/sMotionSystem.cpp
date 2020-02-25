@@ -9,7 +9,7 @@
  * Position component and Velocity component.
  * @param entities - the list of entities to process
  */
-void MotionSystem::Process(const std::vector<Entity*> &entities, float dt)
+void MotionSystem::Process(const std::vector<Entity*>& entities, float dt)
 {
 	Entity* entity;
 
@@ -22,7 +22,7 @@ void MotionSystem::Process(const std::vector<Entity*> &entities, float dt)
 
 		if (transform == 0 || velocity == 0) continue;
 
-		velocity->velocity += velocity->acceleration* dt;
+		velocity->velocity += velocity->acceleration * dt;
 		transform->position += velocity->velocity;
 
 		if (transform->position.x >= 445)

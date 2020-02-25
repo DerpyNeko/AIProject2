@@ -52,4 +52,10 @@ extern std::vector<Entity*> g_bullets;
 
 extern bool isReversed;
 
+
+#include "ecs/Flock.h"
+
+extern Flock* flock;
+extern bool isFlock;
+
 #endif	// _globalStuff_HG_

@@ -177,6 +177,9 @@
     <ClCompile Include="ecs\bFlock.cpp">
       <Filter>ECS\Behaviour</Filter>
     </ClCompile>
+    <ClCompile Include="ecs\Flock.cpp">
+      <Filter>ECS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cCamera.h">
@@ -307,6 +310,9 @@
     </ClInclude>
     <ClInclude Include="ecs\Behaviours.h">
       <Filter>ECS\Behaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\Flock.h">
+      <Filter>ECS</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

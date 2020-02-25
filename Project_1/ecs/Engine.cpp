@@ -44,6 +44,10 @@ BehaviourManager gBehaviourManager;
 std::vector<System*> gSystems;		// Container of Systems
 double startTime;
 
+Flock* flock = new Flock(0.4f, 0.4f, 0.2f);
+bool isFlock = false;
+void CheckFlock();
+
 static void error_callback(int error, const char* description)
 {
 	fprintf(stderr, "Error: %s\n", description);
@@ -348,6 +352,22 @@ void Update(void)
 		{
 			s->Process(EntityManager::GetEntityList(), dt);
 		}
+
+		Transform* playerTransform = g_player->GetComponent<Transform>();
+		Velocity* playerVelocity = g_player->GetComponent<Velocity>();
+
+		Transform* ringTransform = g_ring->GetComponent<Transform>();
+		Velocity* ringVelocity = g_ring->GetComponent<Velocity>();
+
+		ringVelocity->velocity = playerVelocity->velocity;
+		ringTransform->position = playerTransform->position;
+
+		if (isFlock)
+		{
+			CheckFlock();
+			flock->CalculateSteering();
+		}
+
 	}
 
 	Draw();
@@ -360,6 +380,46 @@ void Draw(void)
 		glm::mat4x4 matModel = glm::mat4(1.0f);
 
 		DrawObject(e, matModel, program);
+	}
+}
+
+void CheckFlock()
+{
+	Transform* playerTransform = g_player->GetComponent<Transform>();
+	Velocity* playerVelocity = g_player->GetComponent<Velocity>();
+
+	int radius = 100;
+
+	for (Entity* e : EntityManager::GetEntityList())
+	{
+		Properties* p = e->GetComponent<Properties>();
+
+		if (p->type == eType::ENEMY)
+		{
+			Transform* transform = e->GetComponent<Transform>();
+			Properties* properties = e->GetComponent<Properties>();
+
+			if ((transform->position.x <= playerTransform->position.x + radius &&
+				transform->position.x >= playerTransform->position.x - radius) &&
+				(transform->position.y <= playerTransform->position.y + radius &&
+					transform->position.y >= playerTransform->position.y - radius))
+			{
+				flock->AddFlockMember(e);
+				properties->bIsPartOfFlock = true;
+			}
+
+			if (transform->position.x >= playerTransform->position.x + radius ||
+				transform->position.x <= playerTransform->position.x - radius ||
+				transform->position.y >= playerTransform->position.y + radius ||
+				transform->position.y <= playerTransform->position.y - radius)
+			{
+				if (properties->bIsPartOfFlock == true)
+				{
+					flock->RemoveFlockMember(e);
+					properties->bIsPartOfFlock = false;
+				}
+			}
+		}
 	}
 }
 
