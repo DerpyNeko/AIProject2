@@ -176,7 +176,6 @@
     <ClCompile Include="cVAOMeshManager.cpp" />
     <ClCompile Include="DrawObject.cpp" />
     <ClCompile Include="ecs\bFormation.cpp" />
-    <ClCompile Include="ecs\Flock.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="LoadModels.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -222,7 +221,6 @@
     <ClInclude Include="cVAOMeshManager.h" />
     <ClInclude Include="globalOpenGLStuff.h" />
     <ClInclude Include="globalStuff.h" />
-    <ClInclude Include="ecs\Flock.h" />
     <ClInclude Include="iDebugRenderer.h" />
     <ClInclude Include="linmath.h" />
     <ClInclude Include="sModelDrawInfo.h" />

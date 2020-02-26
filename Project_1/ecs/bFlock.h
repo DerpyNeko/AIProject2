@@ -33,6 +33,7 @@ private:
 
 	void CalculateVectors(void);
 	void GetSteeringFor(FlockMemberInfo* member, glm::vec3& flockSteering);
+	void GetFlockMembers(std::vector<FlockMemberInfo*> vector);
 
 	std::vector<FlockMemberInfo*> mFlockMembers;
 

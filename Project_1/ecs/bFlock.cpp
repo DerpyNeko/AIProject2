@@ -1,5 +1,6 @@
 #include "bFlock.h"
 #include "cProperties.h"
+#include "../globalStuff.h"
 
 FlockBehaviour::FlockMemberInfo::FlockMemberInfo(Entity* entity, Transform* transform, Velocity* velocity)
 	: entity(entity)
@@ -44,6 +45,10 @@ FlockBehaviour::~FlockBehaviour(void)
 		v->acceleration = glm::vec3(0, 0, 0);
 		v->velocity = glm::vec3(0.001, 0.001, 0.0);
 	}
+
+	Velocity* v = g_player->GetComponent<Velocity>();
+	v->velocity = glm::vec3(0.001, 0.001, 0.0);
+	v->acceleration = glm::vec3(0.0);
 }
 
 void FlockBehaviour::Update(float dt)
@@ -51,7 +56,6 @@ void FlockBehaviour::Update(float dt)
 	int radius = 100;
 
 	Transform* playerTransform = mFlockMembers[0]->entity->GetComponent<Transform>();
-	Velocity* playerVelocity = mFlockMembers[0]->entity->GetComponent<Velocity>();
 
 	for (Entity* e : EntityManager::GetEntityList())
 	{
@@ -219,7 +223,7 @@ void FlockBehaviour::GetSteeringFor(FlockMemberInfo* member, glm::vec3& flockSte
 	}
 
 	if (separationVec.length != 0) {
-		separationVec = -normalize(separationVec);
+		separationVec = -normalize(separationVec) * separationWeight;
 	}
 
 	// Sum of vectors of other boid positions to current boid normalized
@@ -247,4 +251,9 @@ void FlockBehaviour::GetSteeringFor(FlockMemberInfo* member, glm::vec3& flockSte
 	}
 
 	flockSteering = glm::normalize(flockSteering);
+}
+
+void FlockBehaviour::GetFlockMembers(std::vector<FlockMemberInfo*> vector)
+{
+	vector =  mFlockMembers;
 }

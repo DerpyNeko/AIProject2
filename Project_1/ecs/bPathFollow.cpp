@@ -1,4 +1,5 @@
 #include "bPathFollow.h"
+#include "../globalStuff.h"
 
 bool isReversed = false;
 bool isBorked = false;
@@ -42,7 +43,16 @@ void PathFollowBehaviour::Update(float dt)
 	{
 		if (mCurrentGoal == mPath->pathNodes.size() - 1 || isReversed && mCurrentGoal == 0)
 		{
-			agentVelocity->velocity = glm::vec3(0.0f);
+
+			for (Entity* node : EntityManager::GetEntityList())
+			{
+				Properties* p = node->GetComponent<Properties>();
+
+				if (p->type == eType::OTHER)
+					p->setDiffuseColour(glm::vec3(0.0f, 0.0f, 1.0f));
+			}
+
+			agentVelocity->velocity = glm::vec3(0.001f, 0.001f, 0.0f);
 			return;
 		}
 

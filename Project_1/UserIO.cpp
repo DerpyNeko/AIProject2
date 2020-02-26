@@ -113,8 +113,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	if (glfwGetKey(window, GLFW_KEY_0) == GLFW_PRESS)
 	{
 		//	isStopped = !isStopped;
-		playerVelocity->velocity = glm::vec3(0, 0, 0);
+		gBehaviourManager.RemoveBehaviour(g_player, "FormationBehaviour");
 		gBehaviourManager.RemoveBehaviour(g_player, "PathFollowBehaviour");
+		gBehaviourManager.RemoveBehaviour(g_player, "FlockBehaviour");
+		playerVelocity->velocity = glm::vec3(0, 0, 0);
 		for (Entity* e : EntityManager::GetEntityList())
 		{
 			Properties* p = e->GetComponent<Properties>();

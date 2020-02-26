@@ -86,7 +86,7 @@ void FormationBehaviour::Update(float dt)
 
 			if (steer.x == 0 && steer.y == 0 && steer.z == 0 || magnitude < 1.0f)
 			{
-				agentVelocity->velocity = glm::vec3(0, 0, 0);
+				agentVelocity->velocity = glm::vec3(0.001, 0.001, 0.0);
 				index++;
 				continue;
 			}
@@ -95,15 +95,15 @@ void FormationBehaviour::Update(float dt)
 
 			orientation = glm::normalize(orientation);
 
-			agentTransform->orientation = orientation;
+			//agentTransform->orientation = orientation;
 
-			//float angle = 0.0f;
-			//if (desiredVelocity.y < agentVelocity->velocity.y)
-			//	angle = atan(steer.x / steer.y);
-			//else
-			//	angle = atan(steer.y / steer.x);
+			float angle = 0.0f;
+			if (desiredVelocity.y < agentVelocity->velocity.y)
+				angle = atan(steer.x / steer.y);
+			else
+				angle = atan(steer.y / steer.x);
 
-			//agentTransform->adjMeshOrientationEulerAngles(glm::vec3(0, 0, angle), false);
+			agentTransform->adjMeshOrientationEulerAngles(glm::vec3(0, 0, angle), false);
 
 			agentVelocity->velocity = steer * dt;
 
