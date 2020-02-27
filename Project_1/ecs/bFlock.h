@@ -20,6 +20,14 @@ public:
 
 	void CalculateSteering(void);
 
+	float GetCohesionWeight();
+	float GetSeparationWeight();
+	float GetAlignmentWeight();
+
+	void SetCohesionWeight(float value);
+	void SetSeparationWeight(float value);
+	void SetAlignmentWeight(float value);
+
 private:
 	struct FlockMemberInfo
 	{

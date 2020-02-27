@@ -70,7 +70,7 @@ void BehaviourManager::Update(float dt)
 		}
 	}
 	
-	std::cout << "Current Behaviours: " << std::endl;
+	//std::cout << "Current Behaviours: " << std::endl;
 
 	for (behaviour_iterator itAgent = mBehaviourVector.begin(); itAgent != mBehaviourVector.end(); itAgent++)
 	{
@@ -79,8 +79,8 @@ void BehaviourManager::Update(float dt)
 			itAgent->second->Update(dt);
 		}
 
-		std::cout << itAgent->second->GetName() << std::endl;
+		//std::cout << itAgent->second->GetName() << std::endl;
 	}
 
-	std::cout << "\n" << std::endl;
+	//std::cout << "\n" << std::endl;
 }

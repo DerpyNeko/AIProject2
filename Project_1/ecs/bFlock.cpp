@@ -257,3 +257,33 @@ void FlockBehaviour::GetFlockMembers(std::vector<FlockMemberInfo*> vector)
 {
 	vector =  mFlockMembers;
 }
+
+float FlockBehaviour::GetCohesionWeight()
+{
+	return cohesionWeight;
+}
+
+float FlockBehaviour::GetSeparationWeight()
+{
+	return separationWeight;
+}
+
+float FlockBehaviour::GetAlignmentWeight()
+{
+	return alignmentWeight;
+}
+
+void FlockBehaviour::SetCohesionWeight(float value)
+{
+	cohesionWeight = value;
+}
+
+void FlockBehaviour::SetSeparationWeight(float value)
+{
+	separationWeight = value;
+}
+
+void FlockBehaviour::SetAlignmentWeight(float value)
+{
+	alignmentWeight = value;
+}

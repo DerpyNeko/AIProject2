@@ -6,9 +6,34 @@
 bool isWPressed = false;
 bool isSPressed = false;
 
+FlockBehaviour* flockBehave;
+
 int bulletCount = -1;
 
 std::vector<glm::vec3> lastFormationCalled;
+
+void increaseWeight(float& weight1, float& weight2, float& weight3)
+{
+	weight1 += 0.1f;
+	if (weight1 >= 1.0f)
+		weight1 = 1.0f;
+
+	float num = 1.0f - weight1;
+
+	weight2 = weight3 = num / 2;
+}
+
+void decreaseWeight(float& weight1, float& weight2, float& weight3)
+{
+	weight1 -= 0.1f;
+	if (weight1 <= 0.0f)
+		weight1 = 0.0f;
+
+	float num = 1.0f - weight1;
+
+	weight2 = weight3 = num / 2;
+}
+
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -20,30 +45,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
 	}
 
-	//if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-	//{
-	//	if (bulletCount >= 9)
-	//		bulletCount = 0;
-
-	//	bulletCount++;
-
-	//	Transform* bulletTransform = g_bullets.at(bulletCount)->GetComponent<Transform>();
-	//	Velocity* bulletVelocity = g_bullets.at(bulletCount)->GetComponent<Velocity>();
-
-	//	bulletTransform->position = playerTransform->position;
-	//	bulletVelocity->velocity = playerVelocity->velocity * 1.4f;
-	//}
-
 	if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
 	{
 		std::cout << playerTransform->position.x << " " << playerTransform->position.y << std::endl;
 	}
-
-	//if (glfwGetKey(window, GLFW_KEY_GRAVE_ACCENT) == GLFW_PRESS)
-	//{
-	//	isFormation = false;
-	//	isFlock = false;
-	//}
 
 	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
 	{
@@ -78,7 +83,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS)
 	{
 		gBehaviourManager.RemoveBehaviour(g_player, "FormationBehaviour");
-		gBehaviourManager.SetBehaviour(g_player, new FlockBehaviour(g_player, 0.4f, 0.4f, 0.2f));
+		flockBehave = new FlockBehaviour(g_player, 0.4f, 0.4f, 0.2f);
+		gBehaviourManager.SetBehaviour(g_player, flockBehave);
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS)
@@ -106,7 +112,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	if (glfwGetKey(window, GLFW_KEY_9) == GLFW_PRESS)
 	{
 		isReversed = !isReversed;
-
 		std::cout << "Key 9: isReversed: " << isReversed << std::endl;
 	}
 
@@ -124,6 +129,118 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			{
 				p->setDiffuseColour(glm::vec3(0.0f, 0.0f, 1.0f));
 			}
+		}
+	}
+
+	// Flock Weight Controls
+	// Increase
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
+	{
+		if (flockBehave != NULL)
+		{
+			float cWeight = flockBehave->GetCohesionWeight();
+			float sWeight = flockBehave->GetSeparationWeight();
+			float aWeight = flockBehave->GetAlignmentWeight();
+
+			increaseWeight(cWeight, sWeight, aWeight);
+
+			flockBehave->SetCohesionWeight(cWeight);
+			flockBehave->SetSeparationWeight(sWeight);
+			flockBehave->SetAlignmentWeight(aWeight);
+
+			std::cout << "CohesionWeight: " << cWeight << " SeparationWeight: " << sWeight << " AlignmentWeight: " << aWeight << std::endl;
+		}
+
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_Y) == GLFW_PRESS)
+	{
+		if (flockBehave != NULL)
+		{
+			float cWeight = flockBehave->GetCohesionWeight();
+			float sWeight = flockBehave->GetSeparationWeight();
+			float aWeight = flockBehave->GetAlignmentWeight();
+
+			increaseWeight(sWeight, cWeight, aWeight);
+
+			flockBehave->SetCohesionWeight(cWeight);
+			flockBehave->SetSeparationWeight(sWeight);
+			flockBehave->SetAlignmentWeight(aWeight);
+
+			std::cout << "CohesionWeight: " << cWeight << " SeparationWeight: " << sWeight << " AlignmentWeight: " << aWeight << std::endl;
+		}
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS)
+	{
+		if (flockBehave != NULL)
+		{
+			float cWeight = flockBehave->GetCohesionWeight();
+			float sWeight = flockBehave->GetSeparationWeight();
+			float aWeight = flockBehave->GetAlignmentWeight();
+
+			increaseWeight(aWeight, sWeight, cWeight);
+
+			flockBehave->SetCohesionWeight(cWeight);
+			flockBehave->SetSeparationWeight(sWeight);
+			flockBehave->SetAlignmentWeight(aWeight);
+
+			std::cout << "CohesionWeight: " << cWeight << " SeparationWeight: " << sWeight << " AlignmentWeight: " << aWeight << std::endl;
+		}
+	}
+
+	// Decrease
+	if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
+	{
+		if (flockBehave != NULL)
+		{
+			float cWeight = flockBehave->GetCohesionWeight();
+			float sWeight = flockBehave->GetSeparationWeight();
+			float aWeight = flockBehave->GetAlignmentWeight();
+
+			decreaseWeight(cWeight, sWeight, aWeight);
+
+			flockBehave->SetCohesionWeight(cWeight);
+			flockBehave->SetSeparationWeight(sWeight);
+			flockBehave->SetAlignmentWeight(aWeight);
+
+			std::cout << "CohesionWeight: " << cWeight << " SeparationWeight: " << sWeight << " AlignmentWeight: " << aWeight << std::endl;
+		}
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_H) == GLFW_PRESS)
+	{
+		if (flockBehave != NULL)
+		{
+			float cWeight = flockBehave->GetCohesionWeight();
+			float sWeight = flockBehave->GetSeparationWeight();
+			float aWeight = flockBehave->GetAlignmentWeight();
+
+			decreaseWeight(sWeight, cWeight, aWeight);
+
+			flockBehave->SetCohesionWeight(cWeight);
+			flockBehave->SetSeparationWeight(sWeight);
+			flockBehave->SetAlignmentWeight(aWeight);
+
+			std::cout << "CohesionWeight: " << cWeight << " SeparationWeight: " << sWeight << " AlignmentWeight: " << aWeight << std::endl;
+		}
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS)
+	{
+		if (flockBehave != NULL)
+		{
+			float cWeight = flockBehave->GetCohesionWeight();
+			float sWeight = flockBehave->GetSeparationWeight();
+			float aWeight = flockBehave->GetAlignmentWeight();
+
+			decreaseWeight(aWeight, sWeight, cWeight);
+
+			flockBehave->SetCohesionWeight(cWeight);
+			flockBehave->SetSeparationWeight(sWeight);
+			flockBehave->SetAlignmentWeight(aWeight);
+
+			std::cout << "CohesionWeight: " << cWeight << " SeparationWeight: " << sWeight << " AlignmentWeight: " << aWeight << std::endl;
 		}
 	}
 
