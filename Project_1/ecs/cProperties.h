@@ -22,6 +22,7 @@ enum class eType
 	BULLET,
 	EBULLET,
 	OTHER,
+	NODE,
 	NONE
 };
 

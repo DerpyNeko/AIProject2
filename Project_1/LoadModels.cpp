@@ -98,7 +98,7 @@ void LoadModelsIntoScene()
 		properties1->setDiffuseColour(glm::vec3(0.0f, 1.0f, 1.0f));
 		properties1->bDontLight = true;
 		properties1->meshName = "Ring.ply";
-		properties1->type = eType::PLAYER;
+		properties1->type = eType::NONE;
 
 		Transform* transform1 = g_ring->AddComponent<Transform>();
 		transform1->position = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -119,7 +119,7 @@ void LoadModelsIntoScene()
 		properties2->setDiffuseColour(glm::vec3(1.0f, 0.0f, 0.0f));
 		properties2->bDontLight = true;
 		properties2->meshName = "SpherePoint_n_uv.ply";
-		properties2->type = eType::ENEMY;
+		properties2->type = eType::OTHER;
 
 		float x = ((float(rand()) / float(RAND_MAX)) * (445 - (-445))) + (-445);
 		float y = ((float(rand()) / float(RAND_MAX)) * (445 - (-445))) + (-445);
@@ -144,7 +144,7 @@ void LoadModelsIntoScene()
 		properties2->setDiffuseColour(glm::vec3(0.0f, 0.0f, 1.0f));
 		properties2->bDontLight = true;
 		properties2->meshName = "Sphere_n_uv.ply";
-		properties2->type = eType::OTHER;
+		properties2->type = eType::NODE;
 		properties2->bIsWireFrame = true;
 
 		int randomNum = rand() % 891 + (-445);

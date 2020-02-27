@@ -17,6 +17,7 @@ public:
 	Transform();
 
 	glm::vec3 position;
+	glm::vec3 previousPosition;
 	glm::vec3 scale;
 	glm::quat orientation;
 	float sphereRadius;

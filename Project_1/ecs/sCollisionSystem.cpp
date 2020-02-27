@@ -8,6 +8,10 @@
 
 #include "../globalStuff.h"
 
+int intersect_moving_sphere_sphere(
+	const glm::vec3& c0, float r0, const glm::vec3& v0,
+	const glm::vec3& c1, float r1, const glm::vec3& v1, float& t);
+
 struct CollisionPair
 {
 	CollisionPair(Entity* entityA, Entity* entityB) : entityA(entityA), entityB(entityB) { }
@@ -53,15 +57,6 @@ void CollisionSystem::Process(const std::vector<Entity*>& entities, float dt)
 
 			if (TestSphereSphereCollision(transformA->position, transformA->sphereRadius, transformB->position, transformB->sphereRadius))
 			{
-				if (!(propertyA->type == eType::PLAYER && propertyB->type == eType::BULLET))
-					if (!(propertyA->type == eType::ENEMY && propertyB->type == eType::ENEMY))
-						if (!(propertyA->type == eType::BULLET && propertyB->type == eType::BULLET))
-							if (!(propertyA->type == eType::EBULLET && propertyB->type == eType::EBULLET))
-								if (!(propertyA->type == eType::BULLET && propertyB->type == eType::EBULLET))
-									if (!(propertyA->type == eType::EBULLET && propertyB->type == eType::BULLET))
-										if (!(propertyA->type == eType::ENEMY && propertyB->type == eType::EBULLET))
-											if (!(propertyA->type == eType::EBULLET && propertyB->type == eType::ENEMY))
-												std::cout << entityA->name << " has collided with " << entityB->name << std::endl;
 
 				if (propertyA->type == eType::PLAYER && propertyB->type == eType::ENEMY)
 				{
@@ -93,6 +88,34 @@ void CollisionSystem::Process(const std::vector<Entity*>& entities, float dt)
 					transformB->position = glm::vec3(-2500.0f, 300.0f, 0.0f);
 					velocityB->velocity = glm::vec3(0, 0, 0);
 				}
+
+				if ((propertyA->type == eType::PLAYER || propertyA->type == eType::OTHER) && propertyB->type == eType::OTHER)
+				{
+					glm::vec3 cA = transformA->previousPosition;
+					glm::vec3 vA = transformA->position - transformA->previousPosition;
+					float rA = transformA->scale.x;
+					glm::vec3 cB = transformB->previousPosition;
+					glm::vec3 vB = transformB->position - transformB->previousPosition;
+					float rB = transformB->scale.x;
+
+					float t = 0.f;
+					int result = intersect_moving_sphere_sphere(cA, rA, vA, cB, rB, vB, t);
+
+					if (result == 0 || result == -1) return;
+
+					transformA->position = transformA->previousPosition + vA * t;
+					transformB->position = transformB->previousPosition + vB * t;
+
+					float ma = 30.0f;
+					float mb = 30.0f;
+					float mt = ma + mb;
+					glm::vec3 va = velocityA->velocity;
+					glm::vec3 vb = velocityB->velocity;
+					float c = 0.2f;
+
+					velocityA->velocity = (c * mb * (vb - va) + ma * va + mb * vb) / mt;
+					velocityB->velocity = (c * ma * (va - vb) + ma * va + mb * vb) / mt;
+				}
 			}
 		}
 	}
@@ -107,4 +130,29 @@ bool CollisionSystem::TestSphereSphereCollision(const glm::vec3& pA, float rA, c
 	float totalRadius = rA + rB;
 
 	return distance < totalRadius;
+}
+
+int intersect_moving_sphere_sphere(
+	const glm::vec3& c0, float r0, const glm::vec3& v0,
+	const glm::vec3& c1, float r1, const glm::vec3& v1, float& t)
+{
+	glm::vec3 s = c1 - c0;  // sphere center separation
+	glm::vec3 v = v1 - v0;  // relative motion of sphere 1 w.r.t. stationary s0
+	float r = r1 + r0; // sum of sphere radii
+	float c = glm::dot(s, s) - r * r;
+	if (c < 0.f)
+	{
+		// spheres initially overlapping, exit early
+		t = 0.f;
+		return -1;
+	}
+	float a = glm::dot(v, v);
+	if (a < FLT_EPSILON) return 0; // spheres not moving relative to eachother
+	float b = glm::dot(v, s);
+	if (b >= 0.f) return 0; // spheres not moving towards eachother
+	float d = b * b - a * c;
+	if (d < 0.f) return 0;  // no real root, so spheres do not intersect
+
+	t = (-b - glm::sqrt(d)) / a;
+	return t < 1.f ? 1 : 0;
 }

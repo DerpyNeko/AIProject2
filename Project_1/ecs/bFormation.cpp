@@ -65,7 +65,7 @@ void FormationBehaviour::Update(float dt)
 	{
 		Properties* p = e->GetComponent<Properties>();
 
-		if (p->type == eType::ENEMY)
+		if (p->type == eType::OTHER)
 		{
 			Transform* agentTransform = e->GetComponent<Transform>();
 			Velocity* agentVelocity = e->GetComponent<Velocity>();

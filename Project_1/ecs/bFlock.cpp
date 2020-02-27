@@ -61,7 +61,7 @@ void FlockBehaviour::Update(float dt)
 	{
 		Properties* properties = e->GetComponent<Properties>();
 
-		if (properties->type == eType::ENEMY)
+		if (properties->type == eType::OTHER)
 		{
 			Transform* transform = e->GetComponent<Transform>();
 

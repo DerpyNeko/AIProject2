@@ -22,6 +22,8 @@ void MotionSystem::Process(const std::vector<Entity*>& entities, float dt)
 
 		if (transform == 0 || velocity == 0) continue;
 
+		transform->previousPosition = transform->position;
+
 		velocity->velocity += velocity->acceleration * dt;
 		transform->position += velocity->velocity;
 
